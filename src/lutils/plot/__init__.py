@@ -1,8 +1,6 @@
-from src.lutils.plot.plotter import FoamPlot
-from src.lutils.plot.labels import Labels
+"""Placeholder docstring."""
 
+from lutils.plot.labels import Labels
+from lutils.plot.plotter import FoamPlot
 
-__all__ = [
-    'FoamPlot',
-    'Labels'
-]
+__all__ = ["FoamPlot", "Labels"]

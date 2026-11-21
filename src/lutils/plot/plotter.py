@@ -1,19 +1,21 @@
-import matplotlib.pyplot as plt
-import matplotlib.figure as fgr
+"""Placeholder docstring."""
+
+from pathlib import Path
+
 from matplotlib.axes import Axes
 from matplotlib.collections import LineCollection
-import yaml
-from pathlib import Path
-from typing import cast
-import polars as pl
+import matplotlib.figure as fgr
+import matplotlib.pyplot as plt
 import numpy as np
+import polars as pl
+import yaml
 
-from src.lutils.core.case import FoamCase
-from src.lutils.plot.labels import Labels
+from lutils.core.case import FoamCase
+from lutils.core.data import FieldData
+from lutils.plot.labels import Labels
 
 
 class FoamPlot:
-
     """
     Base class for plotting OpenFOAM post-processing data.
 
@@ -28,25 +30,17 @@ class FoamPlot:
         Default is './plots/'.
     """
 
-    def __init__(
-        self,
-        plot_dir: str = './plots/'
-    ) -> None:
+    def __init__(self, plot_dir: str = "./plots/") -> None:
 
-        self._plot_data = {}
-        self._interpolation_data = {}
-        self._residual_data = {}
+        self._plot_data: dict[str, FieldData] = {}
+        self._interpolation_data: dict[str, pl.DataFrame] = {}
+        self._residual_data: dict[str, pl.DataFrame] = {}
 
         self._plot_dir = Path(plot_dir)
         if not self._plot_dir.exists():
             self._plot_dir.mkdir()
 
-    def _get_plot_config(
-        self,
-        label_path: str,
-        style: str
-    ) -> dict[str, str]:
-
+    def _get_plot_config(self, label_path: str, style: str) -> dict[str, str]:
         """
         Configures the matplotlib style and plot labels from a config file.
 
@@ -66,7 +60,8 @@ class FoamPlot:
         Raises
         ------
         FileNotFoundError
-            If `label_path` does not match a preset and the provided path does not exist.
+            If `label_path` does not match a preset and the provided path does
+            not exist.
         """
 
         # Set style
@@ -75,15 +70,15 @@ class FoamPlot:
         # Check if input matches any preset labels
         labels = Labels()
         match label_path:
-            case 'velocity':
+            case "velocity":
                 return labels.velocity
-            case 'k':
+            case "k":
                 return labels.k
-            case 'nut':
+            case "nut":
                 return labels.nut
-            case 'epsilon':
+            case "epsilon":
                 return labels.epsilon
-            case 'omega':
+            case "omega":
                 return labels.omega
             case _:
                 pass
@@ -91,21 +86,15 @@ class FoamPlot:
         # Otherwise load labels from file
         path = Path(label_path)
         if not path.exists():
-            raise FileNotFoundError(f'Config file not found at path: {path}')
+            raise FileNotFoundError(f"Config file not found at path: {path}")
 
-        with path.open() as f:
-            config = yaml.safe_load(f)
+        with path.open(encoding="utf-8") as f:
+            config: dict[str, str] = yaml.safe_load(f)
 
         # Return dict with labels
         return config
 
-    def field_add(
-        self,
-        case: FoamCase,
-        field_name: str,
-        label: str
-    ) -> None:
-
+    def field_add(self, case: FoamCase, field_name: str, label: str) -> None:
         """
         Registers field data from a specific OpenFOAM case for plotting.
 
@@ -121,11 +110,7 @@ class FoamPlot:
 
         self._plot_data[label] = case.fields[field_name]
 
-    def field_delete(
-        self,
-        label: str
-    ) -> None:
-
+    def field_delete(self, label: str) -> None:
         """
         Removes specific field data from the plotting queue.
 
@@ -140,11 +125,7 @@ class FoamPlot:
         except KeyError:
             print(f'Plot data with label "{label}" not found.')
 
-    def residuals_add(
-        self,
-        case: FoamCase
-    ) -> None:
-
+    def residuals_add(self, case: FoamCase) -> None:
         """
         Placeholder
         """
@@ -155,13 +136,9 @@ class FoamPlot:
             print(f'No residual data is loaded in case "{case.label}".')
             return
 
-        self._residual_data[case.label] = res_data.get_columns()
+        self._residual_data[case.label] = res_data.data
 
-    def residuals_delete(
-        self,
-        case: FoamCase
-    ) -> None:
-
+    def residuals_delete(self, case: FoamCase) -> None:
         """
         Placeholder
         """
@@ -175,9 +152,8 @@ class FoamPlot:
         self,
         case: FoamCase,
         lower_corner: list[float],
-        upper_corner: list[float]
+        upper_corner: list[float],
     ) -> None:
-
         """
         Placeholder
         """
@@ -191,17 +167,15 @@ class FoamPlot:
         scoped_data = int_data.scope_data(lower_corner, upper_corner)
 
         if scoped_data.is_empty():
-            print('No points found in the ' +
-                  f'"{lower_corner} - {upper_corner}" domain.')
+            print(
+                "No points found in the "
+                + f'"{lower_corner} - {upper_corner}" domain.'
+            )
             return
 
         self._interpolation_data[case.label] = scoped_data
 
-    def interpolation_delete(
-        self,
-        case: FoamCase
-    ) -> None:
-
+    def interpolation_delete(self, case: FoamCase) -> None:
         """
         Placeholder
         """
@@ -211,29 +185,22 @@ class FoamPlot:
         except KeyError:
             print(f'Interpolation data for case "{case.label}" is not loaded.')
 
-    def plot_residuals(
-        self
-    ) -> None:
-
+    def plot_residuals(self) -> None:
         """
         Placeholder
         """
 
         if not self._residual_data:
-            print('No residual data is loaded.')
+            print("No residual data is loaded.")
             return
 
         for key, value in self._residual_data.items():
-            output_file = self._plot_dir / f'residuals_{key}.png'
-            self._internal_plot_resiudals(output_file, value, key)
+            output_file = self._plot_dir / f"residuals_{key}.png"
+            self._internal_plot_residuals(output_file, value, key)
 
-    def _internal_plot_resiudals(
-        self,
-        output_file: Path,
-        res_data: pl.DataFrame,
-        label: str
+    def _internal_plot_residuals(
+        self, output_file: Path, res_data: pl.DataFrame, label: str
     ) -> None:
-
         """
         Placeholder
         """
@@ -243,14 +210,14 @@ class FoamPlot:
 
         fig, ax = plt.subplots()
 
-        ax.set_title(f'Residuals - {label}')
-        ax.set_xlabel('Iteration')
-        ax.set_ylabel('Residual')
+        ax.set_title(f"Residuals - {label}")
+        ax.set_xlabel("Iteration")
+        ax.set_ylabel("Residual")
 
-        ax.set_yscale('log')
+        ax.set_yscale("log")
 
         for col in res_data:
-            if col.name == 'Time':
+            if col.name == "Time":
                 continue
             ax.plot(res_data[0], col, label=col.name)
 
@@ -259,94 +226,61 @@ class FoamPlot:
 
         plt.close(fig)
 
-    def plot_interpolation(
-        self
-    ) -> None:
-
+    def plot_interpolation(self) -> None:
         """
         Placeholder
         """
 
         if not self._interpolation_data:
-            print('No interpolation data is loaded.')
+            print("No interpolation data is loaded.")
             return
 
         for key, value in self._interpolation_data.items():
-            output_file = self._plot_dir / f'interpolation_{key}.png'
-            self._plot_2D_interpolation(output_file, value, key)
+            output_file = self._plot_dir / f"interpolation_{key}.png"
+            self._plot_2d_interpolation(output_file, value, key)
 
-    def _plot_2D_interpolation(
-        self,
-        output_file: Path,
-        int_data: pl.DataFrame,
-        label: str
+    def _plot_2d_interpolation(
+        self, output_file: Path, int_data: pl.DataFrame, label: str
     ) -> None:
-
         """
         Placeholder
         """
 
         # Get point distances
-        magnitude_x = int_data['intPoint0_x'] - int_data['intPoint2_x']
-        magnitude_y = int_data['intPoint0_y'] - int_data['intPoint2_y']
+        magnitude_x = int_data["intPoint0_x"] - int_data["intPoint2_x"]
+        magnitude_y = int_data["intPoint0_y"] - int_data["intPoint2_y"]
 
-        back_magnitude_x = int_data['intPoint0_x'] - int_data['bCell_x']
-        back_magnitude_y = int_data['intPoint0_y'] - int_data['bCell_y']
+        back_magnitude_x = int_data["intPoint0_x"] - int_data["bCell_x"]
+        back_magnitude_y = int_data["intPoint0_y"] - int_data["bCell_y"]
 
         # Calculate line lengths
-        length_interpolation = np.sqrt(
-            magnitude_x**2
-            + magnitude_y**2
-        ).max()
+        length_interpolation = np.sqrt(magnitude_x**2 + magnitude_y**2).max()
 
-        length_back = np.sqrt(
-                back_magnitude_x**2
-                + back_magnitude_y**2
-                ).max()
+        length_back = np.sqrt(back_magnitude_x**2 + back_magnitude_y**2).max()
 
-        length_surfNorm = np.sqrt(
-            int_data['surfNorm_x']**2
-            + int_data['surfNorm_y']**2
+        length_surf_norm = np.sqrt(
+            int_data["surfNorm_x"] ** 2 + int_data["surfNorm_y"] ** 2
         ).max()
 
         # Calculate the scaling factors
-        t_front = length_interpolation / length_surfNorm
-        t_back = length_back / length_surfNorm
+        t_front = length_interpolation / length_surf_norm
+        t_back = length_back / length_surf_norm
 
         # Calculated the scaled surface normal
         # start and end points
         # x = Ax + t(Bx - Ax), y = Ay + t(By - Ay)
-        start_x = (
-            int_data['bCell_x']
-            - t_back*int_data['surfNorm_x']
-        )
-        start_y = (
-            int_data['bCell_y']
-            - t_back*int_data['surfNorm_y']
-        )
+        start_x = int_data["bCell_x"] - t_back * int_data["surfNorm_x"]
+        start_y = int_data["bCell_y"] - t_back * int_data["surfNorm_y"]
 
-        end_x = (
-            int_data['bCell_x']
-            + t_front*int_data['surfNorm_x']
-        )
-        end_y = (
-            int_data['bCell_y']
-            + t_front*int_data['surfNorm_y']
-        )
+        end_x = int_data["bCell_x"] + t_front * int_data["surfNorm_x"]
+        end_y = int_data["bCell_y"] + t_front * int_data["surfNorm_y"]
 
         # Reshape to fit LineCollection structure
-        segments = np.column_stack((
-            start_x,
-            start_y,
-            end_x,
-            end_y
-        )).reshape(-1, 2, 2)
-
-        lines = LineCollection(
-            segments,
-            colors='black',
-            label='surfNorm'
+        segments = np.column_stack((start_x, start_y, end_x, end_y)).reshape(
+            -1, 2, 2
         )
+
+        lines = LineCollection(list(segments), colors="black", label="surfNorm")
 
         # Declare ax and fig, because hinting for mpl is sus
         ax: Axes
@@ -354,9 +288,9 @@ class FoamPlot:
 
         fig, ax = plt.subplots()
 
-        ax.set_title(f'IBM interpolation - {label}')
-        ax.set_xlabel('x')
-        ax.set_ylabel('y')
+        ax.set_title(f"IBM interpolation - {label}")
+        ax.set_xlabel("x")
+        ax.set_ylabel("y")
 
         # Scaled surface normals
         ax.add_collection(lines)
@@ -364,38 +298,38 @@ class FoamPlot:
 
         # Boundary cell point
         ax.scatter(
-            x=int_data['bCell_x'],
-            y=int_data['bCell_y'],
-            marker='o',
-            color='black',
-            label='bCell'
+            x=int_data["bCell_x"],
+            y=int_data["bCell_y"],
+            marker="o",
+            color="black",
+            label="bCell",
         )
 
         # First interpolation points - wall
         ax.scatter(
-            x=int_data['intPoint0_x'],
-            y=int_data['intPoint0_y'],
-            marker='s',
-            color='orange',
-            label='intPoint0'
+            x=int_data["intPoint0_x"],
+            y=int_data["intPoint0_y"],
+            marker="s",
+            color="orange",
+            label="intPoint0",
         )
 
         # Second interpolation points - first in-stream
         ax.scatter(
-            x=int_data['intPoint1_x'],
-            y=int_data['intPoint1_y'],
-            marker='s',
-            color='blue',
-            label='intPoint1'
+            x=int_data["intPoint1_x"],
+            y=int_data["intPoint1_y"],
+            marker="s",
+            color="blue",
+            label="intPoint1",
         )
 
         # Third interpolation points - second in-stream
         ax.scatter(
-            x=int_data['intPoint2_x'],
-            y=int_data['intPoint2_y'],
-            marker='s',
-            color='green',
-            label='intPoint2'
+            x=int_data["intPoint2_x"],
+            y=int_data["intPoint2_y"],
+            marker="s",
+            color="green",
+            label="intPoint2",
         )
 
         fig.legend()
@@ -410,12 +344,11 @@ class FoamPlot:
         position_axis: str,
         position_value: float,
         position_tol: float,
-        labels: str = 'velocity',
-        style: str = 'lutils.profile',
+        labels: str = "velocity",
+        style: str = "lutils.profile",
         figure_id: str | int | None = None,
-        out_csv: bool = True
+        out_csv: bool = True,
     ) -> None:
-
         """
         Generates a profile plot by extracting data along a geometric slice.
 
@@ -440,12 +373,14 @@ class FoamPlot:
         labels : str, optional
             The label configuration preset or path. Default is 'velocity'.
         style : str, optional
-            The matplotlib style sheet to use. Default is 'lutils.plt_cfg.lutils'.
+            The matplotlib style sheet to use. Default is
+            'lutils.plt_cfg.lutils'.
         figure_id : str or int or None, optional
-            The unique identifier for the figure. If None, a new figure is created.
+            The unique identifier for the figure. If None, a new figure is
+            created.
         out_csv : bool, optional
-            If True, exports the sliced data to CSV files in the plot directory.
-            Default is True.
+            If True, exports the sliced data to CSV files in the plot
+            directory. Default is True.
         """
 
         # Get label and style
@@ -455,35 +390,26 @@ class FoamPlot:
         fig, ax = self._get_figure_ax(figure_id)
 
         # Set labels
-        ax.set_title(config['title'])
-        ax.set_xlabel(config['xlabel'])
-        ax.set_ylabel(config['ylabel'])
+        ax.set_title(config["title"])
+        ax.set_xlabel(config["xlabel"])
+        ax.set_ylabel(config["ylabel"])
 
         # Plot all plot data entries
         for key, value in self._plot_data.items():
             trimmed = value.get_cells(
-                position_axis,
-                position_value,
-                data_axis,
-                position_tol
+                position_axis, position_value, data_axis, position_tol
             )
-            ax.scatter(
-                trimmed[data_axis],
-                trimmed[field],
-                label=key
-            )
+            ax.scatter(trimmed[data_axis], trimmed[field], label=key)
             if out_csv:
-                trimmed.write_csv(file=self._plot_dir / str(key+'.csv'))
+                trimmed.write_csv(file=self._plot_dir / str(key + ".csv"))
 
         fig.legend()
 
         fig.savefig(self._plot_dir / output_file)
 
     def _get_figure_ax(
-        self,
-        figure_id: str | int | None
-    ) -> tuple[fgr.Figure, fgr.Axes]:
-
+        self, figure_id: str | int | None
+    ) -> tuple[fgr.Figure, Axes]:
         """
         Retrieves an existing figure or creates a new one.
 
@@ -499,13 +425,9 @@ class FoamPlot:
         """
 
         if figure_id:
-            fig = cast(
-                fgr.Figure,
-                plt.figure(figure_id)
-            )
+            fig = plt.figure(figure_id)
             ax = fig.gca()
         else:
-            raw_fig, ax = plt.subplots()
-            fig = cast(fgr.Figure, raw_fig)
+            fig, ax = plt.subplots()
 
         return fig, ax

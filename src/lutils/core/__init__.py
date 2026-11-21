@@ -1,8 +1,6 @@
-from src.lutils.core.case import FoamCase
-from src.lutils.core.manager import CaseManager
+"""Placeholder docstring."""
 
+from lutils.core.case import FoamCase
+from lutils.core.manager import CaseManager
 
-__all__ = [
-    'FoamCase',
-    'CaseManager'
-]
+__all__ = ["FoamCase", "CaseManager"]

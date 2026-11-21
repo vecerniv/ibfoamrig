@@ -1,20 +1,19 @@
+"""Placeholder docstring."""
+
 from pathlib import Path
 
 
-def get_latest_time(
-    case_path: Path
-) -> int:
-
+def get_latest_time(case_path: Path) -> int:
     """
     Placeholder
     """
 
     times = []
 
-    for dir in case_path.iterdir():
+    for entry in case_path.iterdir():
         try:
-            time = int(dir.name)
-        except:
+            time = int(entry.name)
+        except ValueError:
             continue
 
         times.append(time)

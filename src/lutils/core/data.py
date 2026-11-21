@@ -1,9 +1,11 @@
+"""Placeholder docstring."""
+
 from pathlib import Path
+
 import polars as pl
 
 
 class FieldData:
-
     """
     A container for field data loaded from OpenFOAM output files.
 
@@ -15,23 +17,17 @@ class FieldData:
         The name identifying this field.
     """
 
-    def __init__(
-        self,
-        file_path: Path,
-        field_name: str
-    ) -> None:
+    def __init__(self, file_path: Path, field_name: str) -> None:
 
         if not file_path.exists():
-            raise FileNotFoundError(
-                f'File not found at "{file_path}".'
-            )
+            raise FileNotFoundError(f'File not found at "{file_path}".')
 
         # Parse data into DataFrame
         internal_field = pl.scan_csv(source=file_path, has_header=True)
         self.name = field_name
 
         # Filter relevant columns
-        keys = ['x', 'y', 'z', self.name]
+        keys = ["x", "y", "z", self.name]
         self.data = internal_field.select(keys).collect()
 
     def get_cells(
@@ -39,9 +35,8 @@ class FieldData:
         position_axis: str,
         position_value: float,
         data_axis: str,
-        tol: float
+        tol: float,
     ) -> pl.DataFrame:
-
         """
         Extracts a subset of cells near a specific coordinate and sorts them.
 
@@ -65,14 +60,13 @@ class FieldData:
         position_value = float(position_value)
         tol = float(tol)
         filtered_and_sorted = self.data.filter(
-                ((pl.col(position_axis) - position_value).abs() < tol)
-            ).sort(data_axis)
+            ((pl.col(position_axis) - position_value).abs() < tol)
+        ).sort(data_axis)
 
         return filtered_and_sorted
 
 
 class ResidualData:
-
     """
     A container for residual data loaded from OpenFOAM output files.
 
@@ -81,44 +75,35 @@ class ResidualData:
     file_path : pathlib.Path
         The path to the residuals file.
     fields : list[str], optional
-        A list of specific residual fields to extract. If empty, all fields are loaded.
-        Default is an empty list.
+        A list of specific residual fields to extract. If empty, all fields
+        are loaded. Default is an empty list.
     """
 
-    def __init__(
-        self,
-        file_path: Path
-    ) -> None:
+    def __init__(self, file_path: Path) -> None:
 
         if not file_path.exists():
-            raise FileNotFoundError(
-                f'File not found at "{file_path}".'
-            )
+            raise FileNotFoundError(f'File not found at "{file_path}".')
 
         with file_path.open() as f:
             f.readline()
             line = f.readline()
-            col_names = line.strip('#').split()
+            col_names = line.strip("#").split()
 
         data = pl.read_csv(
-            source=file_path,
-            skip_rows=3,
-            separator='\t',
-            new_columns=col_names
+            source=file_path, skip_rows=3, separator="\t", new_columns=col_names
         )
 
-        stripped_time = data.select(
-            pl.col('Time').str.strip_chars()
-        ).to_series(0).str.to_integer()
+        stripped_time = (
+            data.select(pl.col("Time").str.strip_chars())
+            .to_series(0)
+            .str.to_integer()
+        )
 
         data = data.replace_column(0, stripped_time)
 
         self.data = data
 
-    def get_columns(
-        self
-    ) -> list[pl.Series]:
-
+    def get_columns(self) -> list[pl.Series]:
         """
         Placeholder
         """
@@ -132,29 +117,20 @@ class ResidualData:
 
 
 class InterpolationData:
-
     """
     Placeholder
     """
 
-    def __init__(
-        self,
-        file_path: Path
-    ) -> None:
+    def __init__(self, file_path: Path) -> None:
 
         if not file_path.exists():
-            raise FileNotFoundError(
-                f'File not found at "{file_path}".'
-            )
+            raise FileNotFoundError(f'File not found at "{file_path}".')
 
         self.data = pl.read_csv(source=file_path, has_header=True)
 
     def scope_data(
-        self,
-        lower_corner: list[float],
-        upper_corner: list[float]
+        self, lower_corner: list[float], upper_corner: list[float]
     ) -> pl.DataFrame:
-
         """
         Placeholder
         """
@@ -165,13 +141,13 @@ class InterpolationData:
 
         # Only get data in the specified scope. Sphagetti filtering for now
         scoped = self.data.filter(
-                pl.col("bCell_x") >= lower_corner[0],
-                pl.col("bCell_x") <= upper_corner[0],
-                pl.col("bCell_y") >= lower_corner[1],
-                pl.col("bCell_y") <= upper_corner[1],
-                pl.col("bCell_z") >= lower_corner[2],
-                pl.col("bCell_z") <= upper_corner[2],
-                )
+            pl.col("bCell_x") >= lower_corner[0],
+            pl.col("bCell_x") <= upper_corner[0],
+            pl.col("bCell_y") >= lower_corner[1],
+            pl.col("bCell_y") <= upper_corner[1],
+            pl.col("bCell_z") >= lower_corner[2],
+            pl.col("bCell_z") <= upper_corner[2],
+        )
 
         return scoped.clone()
 

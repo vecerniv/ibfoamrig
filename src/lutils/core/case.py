@@ -1,13 +1,17 @@
+"""Placeholder docstring."""
+
 from pathlib import Path
 import subprocess
+
 import polars as pl
 
-from src.lutils.core.data import FieldData, InterpolationData, ResidualData
-from src.lutils.core.utils import get_latest_time
+from lutils.core.data import FieldData
+from lutils.core.data import InterpolationData
+from lutils.core.data import ResidualData
+from lutils.core.utils import get_latest_time
 
 
 class FoamCase:
-
     """
     A base class representing an OpenFOAM case.
 
@@ -33,33 +37,25 @@ class FoamCase:
     fields : dict[str, FieldData]
         A dictionary of {field_name: FieldData} values.
     of_distribution : str
-        The type of OpenFOAM distribution ('com' for ESI/OpenCFD, 'org' for Foundation).
+        The type of OpenFOAM distribution
+        ('com' for ESI/OpenCFD, 'org' for Foundation).
     """
 
     def __init__(
-        self,
-        case_path: str,
-        label: str,
-        of_distribution: str = 'org'
+        self, case_path: str, label: str, of_distribution: str = "org"
     ) -> None:
 
         if not Path(case_path).is_dir():
-            raise FileNotFoundError(
-                    f'Case not found at {case_path}.'
-                )
+            raise FileNotFoundError(f"Case not found at {case_path}.")
 
         self.case_path = Path(case_path)
         self.label = label
         self.of_distribution = of_distribution
-        self.fields = {}
-        self.residuals = None
-        self.interpolation = None
+        self.fields: dict[str, FieldData] = {}
+        self.residuals: ResidualData | None = None
+        self.interpolation: InterpolationData | None = None
 
-    def run_script(
-        self,
-        file_name: str
-    ) -> None:
-
+    def run_script(self, file_name: str) -> None:
         """
         Executes an arbitrary script within the context of the OpenFOAM case.
 
@@ -67,15 +63,16 @@ class FoamCase:
         ----------
         file_name : str
             The path to the script file. If a relative path is provided, it is
-            resolved relative to the case directory. Absolute paths are used as-is.
+            resolved relative to the case directory. Absolute paths are used
+            as-is.
 
         Raises
         ------
         FileNotFoundError
             If the script file does not exist at the resolved path.
         RuntimeError
-            If the script execution fails (returns a non-zero exit code) or if an
-            unexpected error occurs during execution.
+            If the script execution fails (returns a non-zero exit code) or
+            if an unexpected error occurs during execution.
         """
 
         script_path = Path(file_name)
@@ -86,40 +83,35 @@ class FoamCase:
 
             if not script_path.exists():
                 raise FileNotFoundError(
-                    f'Script file not found at absolute path: {script_path}'
+                    f"Script file not found at absolute path: {script_path}"
                 )
         else:
             full_script_path = self.case_path / script_path
 
             if not full_script_path.exists():
                 raise FileNotFoundError(
-                    'Script file not found inside case directory: ' +
-                    f'{full_script_path}'
+                    "Script file not found inside case directory: "
+                    + f"{full_script_path}"
                 )
 
-            command = f'./{file_name}'
+            command = f"./{file_name}"
 
         try:
             # Run script inside case directory
             subprocess.run(command, cwd=self.case_path, check=True)
         except subprocess.CalledProcessError as e:
             err_msg = (
-                f'Script execution failed for case "{self.label}" ' +
-                f'at path: {self.case_path}.'
+                f'Script execution failed for case "{self.label}" '
+                + f"at path: {self.case_path}."
             )
             raise RuntimeError(err_msg) from e
         except Exception as e:
             raise RuntimeError(
-                'An unexpected error occured while trying to run script ' +
+                "An unexpected error occurred while trying to run script "
                 f'"{file_name}" for case "{self.label}": {e}'
-            )
+            ) from e
 
-    def field_add(
-        self,
-        file_path: str,
-        field_name: str
-    ) -> None:
-
+    def field_add(self, file_path: str, field_name: str) -> None:
         """
         Loads field data from a file and registers it to the case.
 
@@ -133,15 +125,9 @@ class FoamCase:
 
         path = self.case_path / file_path
 
-        self.fields[field_name] = FieldData(
-            path, field_name
-        )
+        self.fields[field_name] = FieldData(path, field_name)
 
-    def field_delete(
-        self,
-        field_name: str
-    ) -> None:
-
+    def field_delete(self, field_name: str) -> None:
         """
         Removes a specified field from the case.
 
@@ -154,15 +140,9 @@ class FoamCase:
         try:
             del self.fields[field_name]
         except ValueError:
-            print(
-                f'Field "{field_name}" is not in "{self.label}" fields.'
-            )
+            print(f'Field "{field_name}" is not in "{self.label}" fields.')
 
-    def residuals_add(
-        self,
-        file_path: str
-    ) -> None:
-
+    def residuals_add(self, file_path: str) -> None:
         """
         Loads residual data from a specified file.
 
@@ -179,21 +159,14 @@ class FoamCase:
 
         self.residuals = ResidualData(path)
 
-    def get_residuals(
-        self
-    ) -> ResidualData | None:
-
+    def get_residuals(self) -> ResidualData | None:
         """
         Placeholder
         """
 
         return self.residuals
 
-    def interpolation_add(
-        self,
-        file_path: str
-    ) -> None:
-
+    def interpolation_add(self, file_path: str) -> None:
         """
         Placeholder
         """
@@ -202,35 +175,31 @@ class FoamCase:
 
         self.interpolation = InterpolationData(path)
 
-    def get_interpolation(
-        self
-    ) -> InterpolationData | None:
-
+    def get_interpolation(self) -> InterpolationData | None:
         """
         Placeholder
         """
 
         return self.interpolation
 
-    def get_yplus(
-        self
-    ) -> None:
-
+    def get_yplus(self) -> None:
         """
         Placeholder
         """
 
-        dir = get_latest_time(self.case_path)
-        if dir <= 0:
+        latest_time = get_latest_time(self.case_path)
+        if latest_time <= 0:
             print(f'No simulation time was found for case "{self.label}"')
             return
 
-        dir = str(dir)
-        file = self.case_path / dir / 'yOrthoi'
+        time_dir = self.case_path / str(latest_time)
+        file = time_dir / "yOrthoi"
 
         if not file.exists():
-            print(f'"yOtrhoi" not found in directory "{dir}"' +
-                  f' for case "{self.label}".')
+            print(
+                f'"yOtrhoi" not found in directory "{file}"'
+                + f' for case "{self.label}".'
+            )
             return
 
         data = []
@@ -238,11 +207,11 @@ class FoamCase:
         with file.open() as f:
             for line in f:
                 clean_line = line.strip()
-                if clean_line == '(':
-                     in_brackets = True
-                     continue
+                if clean_line == "(":
+                    in_brackets = True
+                    continue
 
-                if clean_line == ')':
+                if clean_line == ")":
                     in_brackets = False
                     continue
 
@@ -254,7 +223,7 @@ class FoamCase:
 
         df = pl.DataFrame(data)
 
-        print(f'y+ for case: {self.label}')
-        print(f'    mean: {df.mean().item()}')
-        print(f'    min:  {df.min().item()}')
-        print(f'    max:  {df.max().item()}')
+        print(f"y+ for case: {self.label}")
+        print(f"    mean: {df.mean().item()}")
+        print(f"    min:  {df.min().item()}")
+        print(f"    max:  {df.max().item()}")

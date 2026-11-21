@@ -1,8 +1,9 @@
-from src.lutils.core.case import FoamCase
+"""Placeholder docstring."""
+
+from lutils.core.case import FoamCase
 
 
 class CaseManager:
-
     """
     A manager class for controlling multiple OpenFOAM cases.
 
@@ -23,23 +24,16 @@ class CaseManager:
         FoamCase objects.
     """
 
-    def __init__(
-        self,
-        case_paths: list[str],
-        case_labels: list[str]
-    ) -> None:
+    def __init__(self, case_paths: list[str], case_labels: list[str]) -> None:
 
-        self.cases = {}
+        self.cases: dict[str, FoamCase] = {}
         # Load each case into dict
         for path, label in zip(case_paths, case_labels):
             self.add_case_by_path(path, label)
 
     def run_script(
-        self,
-        file_name: str,
-        case_labels: list[str] | None = None
+        self, file_name: str, case_labels: list[str] | None = None
     ) -> None:
-
         """
         Executes an arbitrary script across selected OpenFOAM cases.
 
@@ -67,12 +61,7 @@ class CaseManager:
         for case in cases:
             case.run_script(file_name)
 
-    def add_case_by_path(
-        self,
-        path: str,
-        case_label: str
-    ) -> None:
-
+    def add_case_by_path(self, path: str, case_label: str) -> None:
         """
         Instantiates a FoamCase and registers it to the manager.
 
@@ -95,22 +84,20 @@ class CaseManager:
 
         except (FileNotFoundError, OSError, ValueError) as e:
             raise ValueError(
-                'Error adding case to manager. Invalid path or internal ' +
-                'FoamCase creation failed.'
-                f'Check path: {path}.'
+                "Error adding case to manager. Invalid path or internal "
+                + "FoamCase creation failed."
+                f"Check path: {path}."
             ) from e
 
         if case_label in self.cases:
             raise ValueError(
-                f'Unique Label Error: A case with label "{case_label}" ' +
-                'already in the manager!')
+                f'Unique Label Error: A case with label "{case_label}" '
+                + "already in the manager!"
+            )
 
         self.cases[case.label] = case
 
-    def get_cases(
-        self
-    ) -> list:
-
+    def get_cases(self) -> list[FoamCase]:
         """
         Placeholder description
         """

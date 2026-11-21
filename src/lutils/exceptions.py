@@ -15,15 +15,18 @@ class CaseNotFoundError(LutilsError):
 
 class FoamParseError(LutilsError):
     """Raised when a file cannot be parsed into the expected structure.
-    
+
     Attributes:
         path: Path to the file that failed to parse.
         reason: Human-readable description of the problem.
         line: Line number of the offending line, if known.
     """
-    def __init__(self, path: StrPath, reason: str, line: int | None = None) -> None:
+
+    def __init__(
+        self, path: StrPath, reason: str, line: int | None = None
+    ) -> None:
         """Initializes the error.
-        
+
         Args:
             path: Path to the file that failed to parse.
             reason: Human-readable description of the problem.
