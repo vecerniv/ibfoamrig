@@ -2,8 +2,8 @@ from pathlib import Path
 import subprocess
 import polars as pl
 
-from lutils.core.data import FieldData, InterpolationData, ResidualData
-from lutils.core.utils import get_latest_time
+from src.lutils.core.data import FieldData, InterpolationData, ResidualData
+from src.lutils.core.utils import get_latest_time
 
 
 class FoamCase:

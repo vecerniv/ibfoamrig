@@ -8,8 +8,8 @@ from typing import cast
 import polars as pl
 import numpy as np
 
-from lutils.core.case import FoamCase
-from lutils.plot.labels import Labels
+from src.lutils.core.case import FoamCase
+from src.lutils.plot.labels import Labels
 
 
 class FoamPlot:

@@ -1,4 +1,4 @@
-from lutils.core.case import FoamCase
+from src.lutils.core.case import FoamCase
 
 
 class CaseManager:
