@@ -115,6 +115,11 @@ class FoamField:
         """The number of components per cell value."""
         return 1 if self.values.ndim == 1 else self.values.shape[1]
 
+    @property
+    def length(self) -> int:
+        """The number of cell values."""
+        return len(self.values)
+
     def expand(self, size: int) -> NDArray[np.float64]:
         """Returns the values for ``size`` cells.
 
