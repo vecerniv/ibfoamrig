@@ -43,7 +43,7 @@ class Dimensions(NamedTuple):
         length: Exponent of metre.
         time: Exponents of second.
         temperature: Exponent of kelvin.
-        moles: Exponent of mole.
+        quantity: Exponent of mole.
         current: Exponent of current.
         luminous_intensity: Exponent of candela.
     """
@@ -52,7 +52,7 @@ class Dimensions(NamedTuple):
     length: float = 0.0
     time: float = 0.0
     temperature: float = 0.0
-    moles: float = 0.0
+    quantity: float = 0.0
     current: float = 0.0
     luminous_intensity: float = 0.0
 
