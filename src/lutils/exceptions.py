@@ -41,3 +41,7 @@ class FoamParseError(LutilsError):
 
 class ScriptError(LutilsError, RuntimeError):
     """Raised when a script run inside a case exits with an error."""
+
+
+class TimeNotFoundError(LutilsError, LookupError):
+    """Raised when a case has no time directory matching a request."""
