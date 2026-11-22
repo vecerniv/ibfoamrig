@@ -11,7 +11,7 @@ import polars as pl
 import yaml
 
 from lutils.core.case import FoamCase
-from lutils.core.data import FieldData
+from lutils.core.old_data import FieldData
 from lutils.plot.labels import Labels
 
 

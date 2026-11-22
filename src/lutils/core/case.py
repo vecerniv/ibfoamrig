@@ -5,9 +5,9 @@ import subprocess
 
 import polars as pl
 
-from lutils.core.data import FieldData
-from lutils.core.data import InterpolationData
-from lutils.core.data import ResidualData
+from lutils.core.old_data import FieldData
+from lutils.core.old_data import InterpolationData
+from lutils.core.old_data import ResidualData
 from lutils.core.utils import get_latest_time
 
 
