@@ -18,6 +18,7 @@ from lutils.io import foam_file
 from lutils.io import tables
 
 _BASE_COLUMNS: tuple[str, ...] = ("cellI", "x", "y", "z")
+_GEOMETRY_COLUMNS: frozenset[str] = frozenset({*_BASE_COLUMNS, "V", "S"})
 # Column suffixes per component count
 _SUFFIXES: dict[int, tuple[str, ...]] = {
     1: ("",),
@@ -165,6 +166,11 @@ class FieldData(_SpatialData):
             _add_columns(columns, field, size)
 
         return cls(frame=pl.DataFrame(columns))
+
+    @property
+    def fields(self) -> list[str]:
+        """Names of the field columns, without geometric columns."""
+        return [c for c in self.columns if c not in _GEOMETRY_COLUMNS]
 
     def project_line(self, start: Point, end: Point, tol: float) -> Self:
         """Selects cells whose centres lie within ``tol`` of a line segment.
