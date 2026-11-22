@@ -17,7 +17,7 @@ from lutils._typing import StrPath
 from lutils.io import foam_file
 from lutils.io import tables
 
-_BASE_COLUMNS: tuple[str, ...] = ("cellI", "x", "y", "z")
+_BASE_COLUMNS: tuple[str, str, str, str] = ("cellI", "x", "y", "z")
 _GEOMETRY_COLUMNS: frozenset[str] = frozenset({*_BASE_COLUMNS, "V", "S"})
 # Column suffixes per component count
 _SUFFIXES: dict[int, tuple[str, ...]] = {
@@ -30,7 +30,7 @@ _SUFFIXES: dict[int, tuple[str, ...]] = {
 _COMPONENT_SUFFIXES: frozenset[str] = frozenset(
     suffix for group in _SUFFIXES.values() for suffix in group if suffix
 )
-_AXES: tuple[str, ...] = ("x", "y", "z")
+_AXES: tuple[str, str, str] = ("x", "y", "z")
 
 
 @dataclasses.dataclass(frozen=True, slots=True)
