@@ -166,15 +166,63 @@ class FieldData(_SpatialData):
 
         return cls(frame=pl.DataFrame(columns))
 
-    def line(
-        self,
-        axis: str,
-        at: float,
-        *,
-        tol: float = 1e-6,
-        sort_by: str | None = None,
-    ) -> Self:
-        raise NotImplementedError
+    def project_line(self, start: Point, end: Point, tol: float) -> Self:
+        """Selects cells whose centres lie within ``tol`` of a line segment.
+
+        Each cell is projected onto the segment. Two columns are added: ``s``
+        , the distance of the projection from ``start``, and ``distance``,
+        the distance of the centre from the line. The values are the raw cell
+        values.
+
+        Args:
+            start: First end point ``(x, y, z)`` of the segment.
+            end: Second end point ``(x, y, z)`` of the segment.
+            tol: Largest distance from the line for a cell to be kept.
+
+        Returns:
+            The selected cells, sorted by ``s``.
+
+        Raises:
+            ValueError: If ``start`` and ``end`` coincide or ``tol`` is not
+                positive.
+        """
+        if tol <= 0:
+            raise ValueError(f"tol must be positive, got {tol}")
+
+        origin = [float(v) for v in start]
+        direction = [float(e) - o for e, o in zip(end, origin, strict=True)]
+
+        length_squared = sum(d * d for d in direction)
+        if length_squared == 0:
+            raise ValueError("start and end of the line must differ")
+
+        offsets = [pl.col(a) - o for a, o in zip(_AXES, origin, strict=True)]
+        # Line parameter of the projection. 0 at start, 1 at end
+        t = (
+            offsets[0] * direction[0]
+            + offsets[1] * direction[1]
+            + offsets[2] * direction[2]
+        ) / length_squared
+        distance_squared = (
+            (offsets[0] - t * direction[0]) ** 2
+            + (offsets[1] - t * direction[1]) ** 2
+            + (offsets[2] - t * direction[2]) ** 2
+        )
+
+        frame = (
+            self.frame.with_columns(
+                t.alias("_t"), distance_squared.alias("_d2")
+            )
+            .filter(pl.col("_t").is_between(0.0, 1.0), pl.col("_d2") < tol**2)
+            .with_columns(
+                (pl.col("_t") * length_squared**0.5).alias("s"),
+                pl.col("_d2").sqrt().alias("distance"),
+            )
+            .drop("_t", "_d2")
+            .sort("s")
+        )
+
+        return dataclasses.replace(self, frame=frame)
 
     def column(self, name: str) -> pl.Series:
         """Returns the values of one column.
