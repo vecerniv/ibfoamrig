@@ -4,9 +4,9 @@ from pathlib import Path
 from typing import Any
 
 import matplotlib
-import matplotlib.pyplot as plt
 from matplotlib.axes import Axes
 from matplotlib.figure import Figure
+import matplotlib.pyplot as plt
 
 from lutils._typing import StrPath
 
@@ -81,8 +81,9 @@ def finish_figure(
 
     return output
 
+
 def _require_interactive(figure: Figure) -> None:
-    """Checks taht a figure can be shown in a windows.
+    """Checks that a figure can be shown in a windows.
 
     Args:
         figure: The figure to show.
