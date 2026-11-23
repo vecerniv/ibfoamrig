@@ -1,6 +1,6 @@
 """Placeholder docstring."""
 
-from lutils.core.case import FoamCase
+from lutils.core.old_case import FoamCase
 
 
 class CaseManager:
