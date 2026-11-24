@@ -12,7 +12,7 @@ such as `simpleFoam`.
 Requires Python 3.12 or newer.
 
 ```bash
-uv add git+https://github.com/vecerniv/ibfoamrig.git
+pip install ibfoamrig
 # or
 pip install git+https://github.com/vecerniv/ibfoamrig.git
 ```
