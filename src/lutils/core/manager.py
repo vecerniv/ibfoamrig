@@ -3,7 +3,7 @@
 `CaseManager` is read-only mapping from case labels to `FoamCase` objects.
 """
 
-from collections.abc import Iterable, Iterator, Mapping
+from collections.abc import Callable, Iterable, Iterator, Mapping
 from pathlib import Path
 from typing import Self
 
@@ -23,7 +23,7 @@ class CaseManager(Mapping[str, FoamCase]):
         Args:
             cases: The cases to manage. Their labels must be unique.
 
-        Riases:
+        Raises:
             ValueError: If two cases share a label.
         """
         self._cases: dict[str, FoamCase] = {}
@@ -115,7 +115,7 @@ class CaseManager(Mapping[str, FoamCase]):
         Args:
             script: Path to the script, a relative path is resolved against
                 each case directory, see `FoamCase.run`.
-            *args: Command-line arguments passed tot the script.
+            *args: Command-line arguments passed to the script.
             labels: Labels of the cases to run in, in order. If None, all
                 cases are used.
 
@@ -127,3 +127,45 @@ class CaseManager(Mapping[str, FoamCase]):
         cases = self if labels is None else self.select(labels)
         for case in cases.values():
             case.run(script, *args)
+
+    def map[T](
+        self,
+        function: Callable[[FoamCase], T],
+        *,
+        labels: Iterable[str] | None = None,
+    ) -> dict[str, T]:
+        """Applies a function to each case, keyed by case label.
+
+        Typical use is collecting data from all cases for one plot::
+
+            def profile(case: FoamCase) -> pl.DataFrame:
+                cells = case.field_data(table)
+                return cells.project_line(start, end, tol).frame
+
+            profiles = manager.map(profile)
+
+        Args:
+            function: Called with each case, its result is stored under the
+                case label.
+            labels:
+                Labels of the cases to use, in order. If None, all cases are
+                    used.
+
+        Returns:
+            The results by case label, in case order.
+
+        Raises:
+            KeyError: If a label does not exist.
+            Exception: Any exception raised by ``function``, with a note
+                naming the case it failed for.
+        """
+        cases = self if labels is None else self.select(labels)
+        results: dict[str, T] = {}
+        for label, case in cases.items():
+            try:
+                results[label] = function(case)
+            except Exception as error:
+                error.add_note(f"while processing case {label!r}")
+                raise
+
+        return results
