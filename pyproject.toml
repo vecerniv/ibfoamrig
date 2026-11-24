@@ -43,8 +43,11 @@ test = [
     "pytest-cov",
 ]
 docs = [
-    "shibuya",
-    "sphinx",
+    "sphinx>=9.1",
+    "pydata-sphinx-theme>=0.24",
+    "myst-parser",
+    "sphinx-copybutton",
+    "sphinx-design",
 ]
 
 [tool.pyink]
