@@ -26,8 +26,8 @@ from scipy.interpolate import LinearNDInterpolator
 from scipy.spatial import cKDTree
 from scipy.spatial import Delaunay
 
-from lutils._typing import Point
-from lutils.core.data import FieldData
+from ibfoamrig._typing import Point
+from ibfoamrig.core.data import FieldData
 
 type Method = Literal["linear", "nearest", "delaunay"]
 """Interpolation method accepted by the sampling methods."""

@@ -1,7 +1,7 @@
 Plotting
 ========
 
-.. automodule:: lutils.plot
+.. automodule:: ibfoamrig.plot
    :members:
    :undoc-members:
    :show-inheritance:

@@ -11,9 +11,9 @@ from collections.abc import Sequence
 
 import polars as pl
 
-from lutils._typing import StrPath
-from lutils.exceptions import FoamParseError
-from lutils.io._files import require_file
+from ibfoamrig._typing import StrPath
+from ibfoamrig.exceptions import FoamParseError
+from ibfoamrig.io._files import require_file
 
 _COMMENT = "#"
 _NOT_AVAILABLE = "N/A"

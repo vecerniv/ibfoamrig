@@ -7,9 +7,9 @@ from collections.abc import Callable, Iterable, Iterator, Mapping
 from pathlib import Path
 from typing import Self
 
-from lutils._typing import StrPath
-from lutils.core.case import Distribution
-from lutils.core.case import FoamCase
+from ibfoamrig._typing import StrPath
+from ibfoamrig.core.case import Distribution
+from ibfoamrig.core.case import FoamCase
 
 
 class CaseManager(Mapping[str, FoamCase]):

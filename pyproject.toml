@@ -3,7 +3,7 @@ requires = ["uv_build>=0.13.0,<0.14"]
 build-backend = "uv_build"
 
 [project]
-name = "lutils"
+name = "ibfoamrig"
 version = "2.0.0"
 description = "A Python library for managing and post-processing OpenFOAM cases."
 readme = "README.md"
@@ -24,9 +24,9 @@ dependencies = [
 ]
 
 [project.urls]
-Repository = "https://github.com/vecerniv/lutils"
-Documentation = "https://vecerniv.github.io/lutils"
-Issues = "https://github.com/vecerniv/lutils/issues"
+Repository = "https://github.com/vecerniv/ibfoamrig"
+Documentation = "https://vecerniv.github.io/ibfoamrig"
+Issues = "https://github.com/vecerniv/ibfoamrig/issues"
 
 [dependency-groups]
 dev = [
@@ -57,7 +57,7 @@ pyink-use-majority-quotes = false
 profile = "google"
 line_length = 80
 src_paths = ["src", "tests"]
-known_first_party = ["lutils"]
+known_first_party = ["ibfoamrig"]
 
 [tool.mypy]
 python_version = "3.12"
@@ -89,7 +89,7 @@ xfail_strict = true
 filterwarnings = ["error"]
 
 [tool.coverage.run]
-source = ["lutils"]
+source = ["ibfoamrig"]
 branch = true
 
 [tool.coverage.report]

@@ -8,7 +8,7 @@ from matplotlib.axes import Axes
 from matplotlib.figure import Figure
 import matplotlib.pyplot as plt
 
-from lutils._typing import StrPath
+from ibfoamrig._typing import StrPath
 
 # Built-in matplotlib backends that only render to files.
 _FILE_BACKENDS = frozenset(

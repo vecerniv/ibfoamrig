@@ -6,9 +6,9 @@ from operator import attrgetter
 from pathlib import Path
 import re
 
-from lutils._typing import StrPath
-from lutils.exceptions import CaseNotFoundError
-from lutils.exceptions import TimeNotFoundError
+from ibfoamrig._typing import StrPath
+from ibfoamrig.exceptions import CaseNotFoundError
+from ibfoamrig.exceptions import TimeNotFoundError
 
 # Plain or scientific decimal regex pattern
 _TIME_NAME = re.compile(r"[+-]?(?:\d+\.?\d*|\.\d+)(?:[eE][+-]?\d+)?")

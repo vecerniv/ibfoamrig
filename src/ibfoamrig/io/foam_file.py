@@ -8,9 +8,9 @@ from typing import Literal, NamedTuple
 import numpy as np
 from numpy.typing import NDArray
 
-from lutils._typing import StrPath
-from lutils.exceptions import FoamParseError
-from lutils.io._files import require_file
+from ibfoamrig._typing import StrPath
+from ibfoamrig.exceptions import FoamParseError
+from ibfoamrig.io._files import require_file
 
 _COMPONENTS = {
     "scalar": 1,

@@ -12,8 +12,8 @@ from mpl_toolkits.mplot3d.axes3d import Axes3D
 import numpy as np
 from numpy.typing import NDArray
 
-from lutils.core.data import InterpolationData
-from lutils.plot.figure import get_axes
+from ibfoamrig.core.data import InterpolationData
+from ibfoamrig.plot.figure import get_axes
 
 _AXES: tuple[str, str, str] = ("x", "y", "z")
 _LINE_COLOR = "0.5"

@@ -5,10 +5,10 @@ from collections.abc import Sequence
 from matplotlib.axes import Axes
 import numpy as np
 
-from lutils.core.data import ResidualData
-from lutils.plot.figure import get_axes
-from lutils.plot.labels import AxisLabels
-from lutils.plot.labels import resolve_labels
+from ibfoamrig.core.data import ResidualData
+from ibfoamrig.plot.figure import get_axes
+from ibfoamrig.plot.labels import AxisLabels
+from ibfoamrig.plot.labels import resolve_labels
 
 
 def plot_residuals(

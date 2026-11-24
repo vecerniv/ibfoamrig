@@ -1,9 +1,9 @@
-.. lutils documentation master file, created by
+.. ibfoamrig documentation master file, created by
    sphinx-quickstart on Tue Dec  9 23:04:13 2025.
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-lutils documentation
+ibfoamrig documentation
 ====================
 
 Quickstart
@@ -12,13 +12,13 @@ Quickstart
 
 .. code-block:: bash
 
-   pip install lutils
+   pip install ibfoamrig
 
 2. Or directly from GitHub:
 
 .. code-block:: bash
 
-   pip install git+https://github.com/vecerniv/lutils.git
+   pip install git+https://github.com/vecerniv/ibfoamrig.git
 
 3. Create your own script based on the reference or check out the examples!
 

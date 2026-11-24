@@ -1,6 +1,6 @@
-# lutils
+# ibfoamrig
 
-**Lambda Utilities** is a Python library for managing and post-processing
+**Immersed Boundary Foam Rig** is a Python library for managing and post-processing
 OpenFOAM cases. It was built to verify and validate the
 [OpenHFDIB-RANS](https://github.com/LucieKubickova/openHFDIBRANS) solver, which
 combines the hybrid fictitious domain–immersed boundary method (HFDIB) with
@@ -12,14 +12,14 @@ such as `simpleFoam`.
 Requires Python 3.12 or newer.
 
 ```bash
-uv add git+https://github.com/vecerniv/lutils.git
+uv add git+https://github.com/vecerniv/ibfoamrig.git
 # or
-pip install git+https://github.com/vecerniv/lutils.git
+pip install git+https://github.com/vecerniv/ibfoamrig.git
 ```
 
 ## Documentation
 
-See the [documentation](https://vecerniv.github.io/lutils).
+See the [documentation](https://vecerniv.github.io/ibfoamrig).
 
 ## License
 

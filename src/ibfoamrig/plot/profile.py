@@ -17,9 +17,9 @@ from typing import Any
 from matplotlib.axes import Axes
 import polars as pl
 
-from lutils.plot.figure import get_axes
-from lutils.plot.labels import AxisLabels
-from lutils.plot.labels import resolve_labels
+from ibfoamrig.plot.figure import get_axes
+from ibfoamrig.plot.labels import AxisLabels
+from ibfoamrig.plot.labels import resolve_labels
 
 # Column with length in meters
 _LENGTH_COLUMNS = frozenset({"x", "y", "z", "s"})
@@ -38,7 +38,8 @@ def plot_profile(
 
     Each entry becomes one line, labelled with its key in the legend. Rows
     are plotted in order of ``x``. Colors, markers and line styles follow
-    the active matplotlib style, e.g. ``plt.style.use("lutils.plot.profile")``.
+    the active matplotlib style, e.g.
+    ``plt.style.use("ibfoamrig.plot.profile")``.
 
     Args:
         data: Frames by label, e.g. by case label.

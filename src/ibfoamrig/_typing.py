@@ -1,4 +1,4 @@
-"""Shared type aliases used across lutils."""
+"""Shared type aliases used across ibfoamrig."""
 
 import os
 

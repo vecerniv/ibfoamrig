@@ -577,6 +577,66 @@ wheels = [
 ]
 
 [[package]]
+name = "ibfoamrig"
+version = "2.0.0"
+source = { editable = "." }
+dependencies = [
+    { name = "matplotlib" },
+    { name = "numpy" },
+    { name = "polars" },
+    { name = "scipy" },
+]
+
+[package.dev-dependencies]
+dev = [
+    { name = "isort" },
+    { name = "mypy" },
+    { name = "pre-commit" },
+    { name = "pyink" },
+    { name = "pylint" },
+    { name = "pytest" },
+    { name = "pytest-cov" },
+    { name = "scipy-stubs" },
+]
+docs = [
+    { name = "shibuya" },
+    { name = "sphinx", version = "9.1.1", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version < '3.13'" },
+    { name = "sphinx", version = "9.2.0", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version >= '3.13'" },
+]
+test = [
+    { name = "pytest" },
+    { name = "pytest-cov" },
+]
+
+[package.metadata]
+requires-dist = [
+    { name = "matplotlib", specifier = ">=3.10" },
+    { name = "numpy", specifier = ">=2.0" },
+    { name = "polars", specifier = ">=1.41.2" },
+    { name = "scipy", specifier = ">=1.18.1" },
+]
+
+[package.metadata.requires-dev]
+dev = [
+    { name = "isort", specifier = ">=9.0.2" },
+    { name = "mypy", specifier = ">=2.4.1" },
+    { name = "pre-commit", specifier = ">=4.7.0" },
+    { name = "pyink", specifier = ">=26.5.1" },
+    { name = "pylint", specifier = ">=4.1.4" },
+    { name = "pytest", specifier = ">=9.2.0" },
+    { name = "pytest-cov" },
+    { name = "scipy-stubs", specifier = ">=1.18.1.1" },
+]
+docs = [
+    { name = "shibuya" },
+    { name = "sphinx" },
+]
+test = [
+    { name = "pytest", specifier = ">=9.2.0" },
+    { name = "pytest-cov" },
+]
+
+[[package]]
 name = "identify"
 version = "2.6.20"
 source = { registry = "https://pypi.org/simple" }
@@ -837,66 +897,6 @@ wheels = [
     { url = "https://files.pythonhosted.org/packages/5c/80/03b4173a8022c2182f03fc2d89daa6e27e63de1ab86c9d972b74e2bf2196/librt-0.17.0-cp315-cp315t-win32.whl", hash = "sha256:d7ba54178e46264de221455ca84e26680debc5ccdb3d11cf8fc64b83e0a91854", size = 114883, upload-time = "2026-11-19T14:10:46.091Z" },
     { url = "https://files.pythonhosted.org/packages/c4/d7/f563218dc47a38f06e3504ae7f67cab188d484848cec50a363a527050a17/librt-0.17.0-cp315-cp315t-win_amd64.whl", hash = "sha256:9c67ede964192c970426aa09d6a7ccfb6a5e41b75462309d93547c6a11e15b10", size = 140448, upload-time = "2026-11-19T14:10:47.136Z" },
     { url = "https://files.pythonhosted.org/packages/7b/75/c3d79629d6894242ffbb70b34d48006f6a5c25127958748aba71d19ce6fa/librt-0.17.0-cp315-cp315t-win_arm64.whl", hash = "sha256:bdc73adb6376765fa8955ba936ed297277c814395eac82e862c621ff3b354602", size = 128548, upload-time = "2026-11-19T14:10:48.224Z" },
-]
-
-[[package]]
-name = "lutils"
-version = "2.0.0"
-source = { editable = "." }
-dependencies = [
-    { name = "matplotlib" },
-    { name = "numpy" },
-    { name = "polars" },
-    { name = "scipy" },
-]
-
-[package.dev-dependencies]
-dev = [
-    { name = "isort" },
-    { name = "mypy" },
-    { name = "pre-commit" },
-    { name = "pyink" },
-    { name = "pylint" },
-    { name = "pytest" },
-    { name = "pytest-cov" },
-    { name = "scipy-stubs" },
-]
-docs = [
-    { name = "shibuya" },
-    { name = "sphinx", version = "9.1.1", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version < '3.13'" },
-    { name = "sphinx", version = "9.2.0", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version >= '3.13'" },
-]
-test = [
-    { name = "pytest" },
-    { name = "pytest-cov" },
-]
-
-[package.metadata]
-requires-dist = [
-    { name = "matplotlib", specifier = ">=3.10" },
-    { name = "numpy", specifier = ">=2.0" },
-    { name = "polars", specifier = ">=1.41.2" },
-    { name = "scipy", specifier = ">=1.18.1" },
-]
-
-[package.metadata.requires-dev]
-dev = [
-    { name = "isort", specifier = ">=9.0.2" },
-    { name = "mypy", specifier = ">=2.4.1" },
-    { name = "pre-commit", specifier = ">=4.7.0" },
-    { name = "pyink", specifier = ">=26.5.1" },
-    { name = "pylint", specifier = ">=4.1.4" },
-    { name = "pytest", specifier = ">=9.2.0" },
-    { name = "pytest-cov" },
-    { name = "scipy-stubs", specifier = ">=1.18.1.1" },
-]
-docs = [
-    { name = "shibuya" },
-    { name = "sphinx" },
-]
-test = [
-    { name = "pytest", specifier = ">=9.2.0" },
-    { name = "pytest-cov" },
 ]
 
 [[package]]

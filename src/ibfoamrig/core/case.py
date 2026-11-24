@@ -1,7 +1,7 @@
 """Access to the files of a single OpenFOAM case.
 
 `FoamCase` knows where things live inside a case directory and returns the
-lutils containers for them. It is stateless, every method reads from disk and
+ibfoamrig containers for them. It is stateless, every method reads from disk and
 returns a new object.
 """
 
@@ -13,16 +13,16 @@ from typing import Literal, NamedTuple
 import numpy as np
 import polars as pl
 
-from lutils._typing import StrPath
-from lutils.core import time_dirs
-from lutils.core.data import FieldData
-from lutils.core.data import InterpolationData
-from lutils.core.data import ResidualData
-from lutils.core.time_dirs import TimeDirectory
-from lutils.exceptions import CaseNotFoundError
-from lutils.exceptions import ScriptError
-from lutils.io import foam_file
-from lutils.io import tables
+from ibfoamrig._typing import StrPath
+from ibfoamrig.core import time_dirs
+from ibfoamrig.core.data import FieldData
+from ibfoamrig.core.data import InterpolationData
+from ibfoamrig.core.data import ResidualData
+from ibfoamrig.core.time_dirs import TimeDirectory
+from ibfoamrig.exceptions import CaseNotFoundError
+from ibfoamrig.exceptions import ScriptError
+from ibfoamrig.io import foam_file
+from ibfoamrig.io import tables
 
 type Distribution = Literal["org", "com"]
 """OpenFOAM distribution: ``"org"`` (Foundation, e.g. v8) or ``"com"``

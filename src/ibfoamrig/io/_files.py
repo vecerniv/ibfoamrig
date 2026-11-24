@@ -2,7 +2,7 @@
 
 from pathlib import Path
 
-from lutils._typing import StrPath
+from ibfoamrig._typing import StrPath
 
 
 def require_file(path: StrPath) -> Path:

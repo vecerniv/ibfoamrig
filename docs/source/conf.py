@@ -6,7 +6,7 @@
 # -- Project information -----------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#project-information
 
-project = "lutils"
+project = "ibfoamrig"
 copyright = "2026, eriazen"
 author = "eriazen"
 

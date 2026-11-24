@@ -1,7 +1,7 @@
 Core Utilities
 ==============
 
-.. automodule:: lutils.core
+.. automodule:: ibfoamrig.core
    :members:
    :undoc-members:
    :show-inheritance:

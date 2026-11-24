@@ -1,19 +1,19 @@
-"""Exceptions raised by lutils."""
+"""Exceptions raised by ibfoamrig."""
 
 from pathlib import Path
 
-from lutils._typing import StrPath
+from ibfoamrig._typing import StrPath
 
 
-class LutilsError(Exception):
-    """Base class for all lutils errors."""
+class IbfoamrigError(Exception):
+    """Base class for all ibfoamrig errors."""
 
 
-class CaseNotFoundError(LutilsError):
+class CaseNotFoundError(IbfoamrigError):
     """Raised when an OpenFOAM case directory does not exist."""
 
 
-class FoamParseError(LutilsError):
+class FoamParseError(IbfoamrigError):
     """Raised when a file cannot be parsed into the expected structure.
 
     Attributes:
@@ -39,9 +39,9 @@ class FoamParseError(LutilsError):
         super().__init__(f"{location}: {reason}")
 
 
-class ScriptError(LutilsError, RuntimeError):
+class ScriptError(IbfoamrigError, RuntimeError):
     """Raised when a script run inside a case exits with an error."""
 
 
-class TimeNotFoundError(LutilsError, LookupError):
+class TimeNotFoundError(IbfoamrigError, LookupError):
     """Raised when a case has no time directory matching a request."""
