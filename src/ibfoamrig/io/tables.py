@@ -87,7 +87,7 @@ def read_residuals(path: StrPath) -> pl.DataFrame:
                 continue
             if names is None:
                 raise FoamParseError(file, "data before header", line_number)
-            if len(fields) > len(header):
+            if len(fields) > len(names):
                 raise FoamParseError(
                     file,
                     f"expected {len(names)} values, got {len(fields)}",
