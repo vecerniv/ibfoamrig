@@ -12,7 +12,7 @@ import yaml
 
 from lutils.core.old_case import FoamCase
 from lutils.core.old_data import FieldData
-from lutils.plot.labels import Labels
+from lutils.plot.old_labels import Labels
 
 
 class FoamPlot:
