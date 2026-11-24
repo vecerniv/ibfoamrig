@@ -1,4 +1,4 @@
-"""Readers that turn OpenFOAM output files into polars frames."""
+"""Readers that turn OpenFOAM output files into arrays and polars frames."""
 
 from lutils.io.foam_file import Dimensions
 from lutils.io.foam_file import FoamField
