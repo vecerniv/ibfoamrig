@@ -1,4 +1,4 @@
-"""Lambda Utilities: managing and post-processing OpenFOAM cases.
+"""Immersed boundary OpenFOAM Rig: managing and post-processing OpenFOAM cases.
 
 Subpackages:
 
