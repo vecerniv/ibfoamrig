@@ -1,105 +1,129 @@
-"""Placeholder docstring."""
+"""A labelled collection of OpenFOAM case.
 
-from lutils.core.old_case import FoamCase
+`CaseManager` is read-only mapping from case labels to `FoamCase` objects.
+"""
+
+from collections.abc import Iterable, Iterator, Mapping
+from pathlib import Path
+from typing import Self
+
+from lutils._typing import StrPath
+from lutils.core.case import Distribution
+from lutils.core.case import FoamCase
 
 
-class CaseManager:
-    """
-    A manager class for controlling multiple OpenFOAM cases.
+class CaseManager(Mapping[str, FoamCase]):
+    """A read-only mapping from case labels to cases, in insertion order."""
 
-    This class acts as a registry for FoamCase objects, allowing for batch
-    execution of scripts and management of case instances via unique labels.
+    __slots__ = ("_cases",)
 
-    Parameters
-    ----------
-    case_paths : list[str]
-        A list of file paths to the OpenFOAM case directories.
-    case_labels : list[str]
-        A list of unique labels corresponding to each case path.
+    def __init__(self, cases: Iterable[FoamCase] = ()) -> None:
+        """Collects cases under their labels.
 
-    Attributes
-    ----------
-    cases : dict[str, FoamCase]
-        A dictionary mapping unique case labels to their corresponding
-        FoamCase objects.
-    """
+        Args:
+            cases: The cases to manage. Their labels must be unique.
 
-    def __init__(self, case_paths: list[str], case_labels: list[str]) -> None:
-
-        self.cases: dict[str, FoamCase] = {}
-        # Load each case into dict
-        for path, label in zip(case_paths, case_labels):
-            self.add_case_by_path(path, label)
-
-    def run_script(
-        self, file_name: str, case_labels: list[str] | None = None
-    ) -> None:
+        Riases:
+            ValueError: If two cases share a label.
         """
-        Executes an arbitrary script across selected OpenFOAM cases.
-
-        Parameters
-        ----------
-        file_name : str
-            The name or path of the script to execute. Relative paths are
-            assumed to be relative to the specific case directory.
-        case_labels : list[str], optional
-            A list of specific case labels to run the script on. If None,
-            the script is executed on all managed cases. Default is None.
-
-        Raises
-        ------
-        KeyError
-            If a label provided in `case_labels` does not exist in the manager.
-        """
-
-        # Select cases based on input
-        if not case_labels:
-            cases = list(self.cases.values())
-        else:
-            cases = [self.cases[label] for label in case_labels]
-        # Run script inside case directories
+        self._cases: dict[str, FoamCase] = {}
         for case in cases:
-            case.run_script(file_name)
+            if case.label in self._cases:
+                raise ValueError(f"duplicate case label {case.label!r}")
+            self._cases[case.label] = case
 
-    def add_case_by_path(self, path: str, case_label: str) -> None:
+    @classmethod
+    def from_paths(
+        cls,
+        paths: Mapping[str, StrPath],
+        *,
+        distribution: Distribution = "org",
+    ) -> Self:
+        """Creates cases from mapping of labels to case directories.
+
+        Args:
+            paths: Case directories by label.
+            distribution: OpenFOAM distribution of all cases.
+
+        Returns:
+            The manager holding one case per entry.
+
+        Raises:
+            CaseNotFoundError: If a path is not a directory.
         """
-        Instantiates a FoamCase and registers it to the manager.
+        return cls(
+            FoamCase(Path(path), label, distribution)
+            for label, path in paths.items()
+        )
 
-        Parameters
-        ----------
-        path : str
-            The file path to the OpenFOAM case directory.
-        case_label : str
-            The unique identifier for this case.
+    def __getitem__(self, label: str) -> FoamCase:
+        """Returns the case with the given label.
 
-        Raises
-        ------
-        ValueError
-            If the case path is invalid, if FoamCase initialization fails,
-            or if the 'case_label' already exists in the manager.
+        Args:
+            label: The case label.
+
+        Returns:
+            The case.
+
+        Raises:
+            keyError: If no case has this label.
         """
-
         try:
-            case = FoamCase(path, case_label)
+            return self._cases[label]
+        except KeyError:
+            raise KeyError(
+                f"no case {label!r}, available: {list(self._cases)}"
+            ) from None
 
-        except (FileNotFoundError, OSError, ValueError) as e:
-            raise ValueError(
-                "Error adding case to manager. Invalid path or internal "
-                + "FoamCase creation failed."
-                f"Check path: {path}."
-            ) from e
+    def __iter__(self) -> Iterator[str]:
+        """Iterates over the case labels in insertion order."""
+        return iter(self._cases)
 
-        if case_label in self.cases:
-            raise ValueError(
-                f'Unique Label Error: A case with label "{case_label}" '
-                + "already in the manager!"
-            )
+    def __len__(self) -> int:
+        """Returns the number of cases."""
+        return len(self._cases)
 
-        self.cases[case.label] = case
+    def __repr__(self) -> str:
+        """Returns a short description listing the case labels."""
+        return f"{type(self).__name__}({list(self._cases)})"
 
-    def get_cases(self) -> list[FoamCase]:
+    def select(self, labels: Iterable[str]) -> Self:
+        """Returns a manager holding only some of the cases.
+
+        Args:
+            labels: Labels of the cases to keep, in order to keep them.
+
+        Returns:
+            A new manager with the selected cases.
+
+        Raises:
+            KeyError: If a label does not exist.
+            ValueError: If a label is repeated.
         """
-        Placeholder description
-        """
+        return type(self)(self[label] for label in labels)
 
-        return list(self.cases.values())
+    def run(
+        self,
+        script: StrPath,
+        *args: str,
+        labels: Iterable[str] | None = None,
+    ) -> None:
+        """Runs a script in each case, one after another.
+
+        Stops at the first case whose script fails.
+
+        Args:
+            script: Path to the script, a relative path is resolved against
+                each case directory, see `FoamCase.run`.
+            *args: Command-line arguments passed tot the script.
+            labels: Labels of the cases to run in, in order. If None, all
+                cases are used.
+
+        Raises:
+            KeyError: If a label does not exist.
+            FileNotFoundError: If the script is missing in a case.
+            ScriptError: If the script fails, the message names the case.
+        """
+        cases = self if labels is None else self.select(labels)
+        for case in cases.values():
+            case.run(script, *args)
