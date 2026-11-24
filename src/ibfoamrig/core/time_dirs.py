@@ -111,4 +111,4 @@ def find_time(case_path: StrPath, time: str | float) -> TimeDirectory:
                 return entry
         elif math.isclose(entry.value, time, rel_tol=1e-9, abs_tol=1e-12):
             return entry
-    raise TimeoutError(f"Time {time!r} not found in {case_path}")
+    raise TimeNotFoundError(f"Time {time!r} not found in {case_path}")
