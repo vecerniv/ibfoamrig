@@ -2,11 +2,18 @@
 
 from importlib.metadata import version as _version
 
+from docutils import nodes
 import polars as pl
 from sphinx.ext.intersphinx import missing_reference as _intersphinx_ref
 
 for _cls in (pl.DataFrame, pl.Series):
     _cls.__module__ = "polars"
+
+_POLARS_URL = "https://docs.pola.rs/api/python/stable/"
+_POLARS_PAGES = {
+    "polars.DataFrame": "reference/dataframe/index.html",
+    "polars.Series": "reference/series/index.html",
+}
 
 # -- Project -----------------------------------------------------------------
 project = "ibfoamrig"
@@ -62,6 +69,22 @@ intersphinx_mapping = {
 }
 
 
+def _resolve_polars(app, env, node, contnode):
+    """Links polars classes that are missing from the polars inventory."""
+    page = _POLARS_PAGES.get(node.get("reftarget"))
+    if page is None:
+        return None
+    ref = nodes.reference(
+        "",
+        "",
+        internal=False,
+        refuri=_POLARS_URL + page,
+        reftitle=node["reftarget"],
+    )
+    ref.append(contnode)
+    return ref
+
+
 def _resolve_external(app, env, node, contnode):
     """Retries failed Python references with public names and any object type."""
     if node.get("refdomain") != "py" or node.get("reftype") == "obj":
@@ -86,6 +109,7 @@ def _hide_private_bases(app, name, obj, options, bases):
 
 
 def setup(app):
+    app.connect("missing-reference", _resolve_polars)
     app.connect("missing-reference", _resolve_external)
     app.connect("autodoc-process-bases", _hide_private_bases)
 
