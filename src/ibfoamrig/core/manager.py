@@ -7,9 +7,9 @@ from collections.abc import Callable, Iterable, Iterator, Mapping
 from pathlib import Path
 from typing import Self
 
-from ibfoamrig._typing import StrPath
-from ibfoamrig.core.case import Distribution
 from ibfoamrig.core.case import FoamCase
+from ibfoamrig.typing import Distribution
+from ibfoamrig.typing import StrPath
 
 
 class CaseManager(Mapping[str, FoamCase]):

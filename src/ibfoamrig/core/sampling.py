@@ -16,7 +16,7 @@ of a 2D case, are ignored.
 
 from collections.abc import Sequence
 import functools
-from typing import Literal, Self
+from typing import Self
 
 import numpy as np
 from numpy.typing import ArrayLike
@@ -26,15 +26,10 @@ from scipy.interpolate import LinearNDInterpolator
 from scipy.spatial import cKDTree
 from scipy.spatial import Delaunay
 
-from ibfoamrig._typing import Point
 from ibfoamrig.core.data import FieldData
-
-type Method = Literal["linear", "nearest", "delaunay"]
-"""Interpolation method accepted by the sampling methods."""
-
-type Points = ArrayLike | pl.DataFrame
-"""Sample points: an ``(m, 3)`` array, a single point, or a frame with
-``x, y, z`` columns."""
+from ibfoamrig.typing import Method
+from ibfoamrig.typing import Point
+from ibfoamrig.typing import Points
 
 _AXES: tuple[str, str, str] = ("x", "y", "z")
 # Axis whose spread is below this fraction of the domain size is flat

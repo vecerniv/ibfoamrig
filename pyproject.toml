@@ -4,7 +4,7 @@ build-backend = "uv_build"
 
 [project]
 name = "ibfoamrig"
-version = "2.0.1"
+version = "2.1.0"
 description = "A Python library for managing and post-processing OpenFOAM cases."
 readme = "README.md"
 requires-python = ">=3.12"
@@ -43,8 +43,11 @@ test = [
     "pytest-cov",
 ]
 docs = [
-    "shibuya",
-    "sphinx",
+    "sphinx>=9.1",
+    "pydata-sphinx-theme>=0.24",
+    "myst-parser",
+    "sphinx-copybutton",
+    "sphinx-design",
 ]
 
 [tool.pyink]

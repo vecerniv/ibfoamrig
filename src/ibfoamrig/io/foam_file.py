@@ -8,9 +8,9 @@ from typing import Literal, NamedTuple
 import numpy as np
 from numpy.typing import NDArray
 
-from ibfoamrig._typing import StrPath
 from ibfoamrig.exceptions import FoamParseError
 from ibfoamrig.io._files import require_file
+from ibfoamrig.typing import StrPath
 
 _COMPONENTS = {
     "scalar": 1,

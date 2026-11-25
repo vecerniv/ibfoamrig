@@ -8,12 +8,11 @@ returns a new object.
 import dataclasses
 from pathlib import Path
 import subprocess
-from typing import Literal, NamedTuple
+from typing import NamedTuple
 
 import numpy as np
 import polars as pl
 
-from ibfoamrig._typing import StrPath
 from ibfoamrig.core import time_dirs
 from ibfoamrig.core.data import FieldData
 from ibfoamrig.core.data import InterpolationData
@@ -23,14 +22,9 @@ from ibfoamrig.exceptions import CaseNotFoundError
 from ibfoamrig.exceptions import ScriptError
 from ibfoamrig.io import foam_file
 from ibfoamrig.io import tables
-
-type Distribution = Literal["org", "com"]
-"""OpenFOAM distribution: ``"org"`` (Foundation, e.g. v8) or ``"com"``
-(ESI, e.g. v2312)."""
-
-type TimeSpec = str | float
-"""A time directory: ``latest``, a directory name such as ``"3000"``, or
-a time value such as ``0.5``."""
+from ibfoamrig.typing import Distribution
+from ibfoamrig.typing import StrPath
+from ibfoamrig.typing import TimeSpec
 
 
 class FieldStats(NamedTuple):
