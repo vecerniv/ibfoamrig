@@ -10,7 +10,7 @@ fields, function-object tables, residuals and IBM interpolation data into
 [Polars](https://pola.rs) frames and plots them with matplotlib.
 
 <p align="center">
-  <img src="https://raw.githubusercontent.com/vecerniv/ibfoamrig/main/docs/_static/readme-figure.png"
+  <img src="https://raw.githubusercontent.com/vecerniv/ibfoamrig/main/docs/_static/readme-image.png"
        alt="IBM interpolation lines around an immersed sphere, in 3D and in a cross-section"
        width="100%">
 </p>
