@@ -212,7 +212,7 @@ class FoamCase:
             if (entry.path / "residuals.dat").is_file()
         ]
         if not files:
-            raise FileNotFoundError(f"no rediduals.dat found under {root}")
+            raise FileNotFoundError(f"no residuals.dat found under {root}")
 
         frames = [tables.read_residuals(file) for file in files]
         # Drop rows that are overwritten by a later time
