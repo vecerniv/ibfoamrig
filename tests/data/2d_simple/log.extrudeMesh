@@ -1,0 +1,44 @@
+/*---------------------------------------------------------------------------*\
+  =========                 |
+  \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox
+   \\    /   O peration     | Website:  https://openfoam.org
+    \\  /    A nd           | Version:  8
+     \\/     M anipulation  |
+\*---------------------------------------------------------------------------*/
+Build  : 8
+Exec   : extrudeMesh
+Date   : Nov 25 2026
+Time   : 13:25:55
+Host   : "summit"
+PID    : 19864
+I/O    : uncollated
+Case   : /home/vecerniv/OpenFOAM/vecerniv-8/misc/ibfoamrigTestCases/2d_simple
+nProcs : 1
+sigFpe : Enabling floating point exception trapping (FOAM_SIGFPE).
+fileModificationChecking : Monitoring run-time modified files using timeStampMaster (fileModificationSkew 10)
+allowSystemOperations : Allowing user-supplied system call operations
+
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+Create time
+
+Create mesh for time = 0
+
+Selecting extrudeModel linearNormal
+Extruding from patch using model linearNormal
+Flipping normals before extruding
+Not collapsing any edges after extrusion
+
+Extruding patches 1(back) on mesh "/home/vecerniv/OpenFOAM/vecerniv-8/misc/ibfoamrigTestCases/2d_simple"
+
+Create mesh for time = 0
+
+Adding overall 0 processor patches.
+Testing:"/home/vecerniv/OpenFOAM/vecerniv-8/misc/ibfoamrigTestCases/2d_simple/system/fvSchemes"
+Mesh bounding box : (-0.02 -0.02 -0.001) (0.02 0.02 0.001)
+        with span : (0.04 0.04 0.002)
+Merge distance    : 0
+
+Writing mesh to "constant/region0"
+
+End
+

@@ -1,0 +1,22 @@
+#!/bin/sh
+cd "${0%/*}" || exit 1
+. $WM_PROJECT_DIR/bin/tools/RunFunctions
+
+# prepare boundary conditions
+rm -rf 0
+cp -r 0.org 0
+
+# prepare paraFoam file
+paraFoam -touch
+
+# create mesh
+runApplication blockMesh
+
+# prepare application
+application=$(getApplication)
+
+# first run
+runApplication "$application"
+
+# remove files causing trouble on windows
+find . -type f -name '*::*' -delete

@@ -1,0 +1,107 @@
+/*---------------------------------------------------------------------------*\
+  =========                 |
+  \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox
+   \\    /   O peration     | Website:  https://openfoam.org
+    \\  /    A nd           | Version:  8
+     \\/     M anipulation  |
+\*---------------------------------------------------------------------------*/
+Build  : 8
+Exec   : simpleHFDIBRANSFoam
+Date   : Nov 25 2026
+Time   : 13:20:07
+Host   : "summit"
+PID    : 18191
+I/O    : uncollated
+Case   : /home/vecerniv/OpenFOAM/vecerniv-8/misc/ibfoamrigTestCases/2d_hfdibrans
+nProcs : 1
+sigFpe : Enabling floating point exception trapping (FOAM_SIGFPE).
+fileModificationChecking : Monitoring run-time modified files using timeStampMaster (fileModificationSkew 10)
+allowSystemOperations : Allowing user-supplied system call operations
+
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+Create time
+
+Create mesh for time = 5
+
+
+SIMPLE: Convergence criteria found
+        U: tolerance 0.0001
+
+Reading field p
+
+Reading field U
+
+Creating field Ui
+
+Reading field lambda
+
+Creating field surface
+
+Creating field normSurface
+
+Reading field f
+
+Reading/calculating face flux field phi
+
+
+Reading g
+Selecting incompressible transport model Newtonian
+Selecting turbulence model type laminar
+Selecting HFDIBLaminar stress model Stokes
+No MRF models present
+
+No finite volume options present
+
+Initial lambda field provided
+Correcting lambda boundary
+
+
+Starting time loop
+
+Time = 6
+
+DILUPBiCG:  Solving for Ux, Initial residual = 0.1116347454, Final residual = 4.306737983e-31, No Iterations 35
+DILUPBiCG:  Solving for Uy, Initial residual = 0.09088102578, Final residual = 6.068511781e-31, No Iterations 35
+HFDIBRANS: Max error in U -> Ui is 0.08581408028
+GAMG:  Solving for p, Initial residual = 0.1835116961, Final residual = 1.346089268e-11, No Iterations 13
+time step continuity errors : sum local = 1.101927676e-09, global = -6.589413228e-10, cumulative = -6.589413228e-10
+ExecutionTime = 0.03 s  ClockTime = 0 s
+
+Time = 7
+
+DILUPBiCG:  Solving for Ux, Initial residual = 0.09794907539, Final residual = 1.850718796e-31, No Iterations 33
+DILUPBiCG:  Solving for Uy, Initial residual = 0.09731557316, Final residual = 1.502549355e-31, No Iterations 34
+HFDIBRANS: Max error in U -> Ui is 0.1060562888
+GAMG:  Solving for p, Initial residual = 0.1372469921, Final residual = 2.458367887e-11, No Iterations 12
+time step continuity errors : sum local = 2.197941535e-09, global = -1.598256175e-09, cumulative = -2.257197498e-09
+ExecutionTime = 0.03 s  ClockTime = 0 s
+
+Time = 8
+
+DILUPBiCG:  Solving for Ux, Initial residual = 0.07347931974, Final residual = 3.530566814e-31, No Iterations 34
+DILUPBiCG:  Solving for Uy, Initial residual = 0.08453941794, Final residual = 2.749096579e-32, No Iterations 35
+HFDIBRANS: Max error in U -> Ui is 0.07633698543
+GAMG:  Solving for p, Initial residual = 0.1036495588, Final residual = 4.418766553e-11, No Iterations 12
+time step continuity errors : sum local = 4.1576881e-09, global = -3.084108118e-09, cumulative = -5.341305616e-09
+ExecutionTime = 0.03 s  ClockTime = 0 s
+
+Time = 9
+
+DILUPBiCG:  Solving for Ux, Initial residual = 0.05850974597, Final residual = 8.671212873e-31, No Iterations 32
+DILUPBiCG:  Solving for Uy, Initial residual = 0.07410513439, Final residual = 2.365500968e-31, No Iterations 34
+HFDIBRANS: Max error in U -> Ui is 0.05637972418
+GAMG:  Solving for p, Initial residual = 0.09278677043, Final residual = 8.078099673e-11, No Iterations 12
+time step continuity errors : sum local = 8.134887969e-09, global = -3.51426914e-09, cumulative = -8.855574756e-09
+ExecutionTime = 0.03 s  ClockTime = 0 s
+
+Time = 10
+
+DILUPBiCG:  Solving for Ux, Initial residual = 0.04826740857, Final residual = 8.769759463e-31, No Iterations 33
+DILUPBiCG:  Solving for Uy, Initial residual = 0.05662328641, Final residual = 1.200099562e-31, No Iterations 35
+HFDIBRANS: Max error in U -> Ui is 0.0670042631
+GAMG:  Solving for p, Initial residual = 0.08357920634, Final residual = 3.212990954e-11, No Iterations 12
+time step continuity errors : sum local = 3.395229691e-09, global = -1.724778298e-09, cumulative = -1.058035305e-08
+ExecutionTime = 0.04 s  ClockTime = 0 s
+
+End
+

@@ -1,0 +1,37 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+  =========                 |
+  \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox
+   \\    /   O peration     | Website:  https://openfoam.org
+    \\  /    A nd           | Version:  8
+     \\/     M anipulation  |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    object      extrudeMeshDict;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+// Rebuild a one-cell-thick 2D mesh from the snapped back patch (z = -0.001)
+constructFrom   patch;
+sourceCase      "$FOAM_CASE";
+sourcePatches   (back);
+exposedPatchName front;
+
+flipNormals     true;    // back normal points to -z, extrude towards +z
+
+extrudeModel    linearNormal;
+nLayers         1;
+expansionRatio  1.0;
+
+linearNormalCoeffs
+{
+    thickness   0.002;    // same z extent as blockMeshDict (-0.001 .. 0.001)
+}
+
+mergeFaces      false;
+mergeTol        0;
+
+// ************************************************************************* //
