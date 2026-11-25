@@ -1,0 +1,216 @@
+/*---------------------------------------------------------------------------*\
+  =========                 |
+  \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox
+   \\    /   O peration     | Website:  https://openfoam.org
+    \\  /    A nd           | Version:  8
+     \\/     M anipulation  |
+\*---------------------------------------------------------------------------*/
+Build  : 8
+Exec   : simpleHFDIBRANSFoam
+Date   : Nov 25 2026
+Time   : 13:19:58
+Host   : "summit"
+PID    : 18148
+I/O    : uncollated
+Case   : /home/vecerniv/OpenFOAM/vecerniv-8/misc/ibfoamrigTestCases/3d_hfdibrans
+nProcs : 1
+sigFpe : Enabling floating point exception trapping (FOAM_SIGFPE).
+fileModificationChecking : Monitoring run-time modified files using timeStampMaster (fileModificationSkew 10)
+allowSystemOperations : Allowing user-supplied system call operations
+
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+Create time
+
+Create mesh for time = 0
+
+
+SIMPLE: Convergence criteria found
+        U: tolerance 0.0001
+
+Reading field p
+
+Reading field U
+
+Creating field Ui
+
+Reading field lambda
+
+Creating field surface
+
+Creating field normSurface
+
+Reading field f
+
+Reading/calculating face flux field phi
+
+
+Reading g
+Selecting incompressible transport model Newtonian
+Selecting turbulence model type HFDIBRAS
+Selecting HFDIBRAS turbulence model HFDIBKOmega
+HFDIBRAS
+{
+    HFDIBRASModel   HFDIBKOmega;
+    turbulence      on;
+    printCoeffs     on;
+    disGSurfaceType setValue;
+    disGBoundaryValue 1;
+    kSurfaceType    setValue;
+    kBoundaryValue  0;
+    betaStar        0.09;
+    beta            0.072;
+    gamma           0.52;
+    alphaK          0.5;
+    alphaOmega      0.5;
+}
+
+No MRF models present
+
+No finite volume options present
+
+No initial lambda field found. Generating based on body: sphere
+Checking if body intersects mesh
+Calculating lambda values
+Lambda field successfully generated
+Correcting lambda boundary
+
+
+Starting time loop
+
+Time = 1
+
+DILUPBiCG:  Solving for Ux, Initial residual = 1, Final residual = 7.257512843e-31, No Iterations 38
+DILUPBiCG:  Solving for Uy, Initial residual = 1, Final residual = 9.845486884e-31, No Iterations 38
+DILUPBiCG:  Solving for Uz, Initial residual = 0.8368507541, Final residual = 6.740646833e-32, No Iterations 39
+HFDIBRANS: Max error in U -> Ui is 0.5448972476
+GAMG:  Solving for p, Initial residual = 1, Final residual = 3.511536501e-11, No Iterations 16
+time step continuity errors : sum local = 2.654026518e-10, global = -7.045603645e-11, cumulative = -7.045603645e-11
+DILUPBiCG:  Solving for omega, Initial residual = 0.01417602974, Final residual = 7.553824787e-21, No Iterations 23
+DILUPBiCG:  Solving for k, Initial residual = 1, Final residual = 3.908042526e-31, No Iterations 31
+HFDIBRANS: Max error in k -> ki is 1.557423561e-05
+ExecutionTime = 0.23 s  ClockTime = 0 s
+
+Time = 2
+
+DILUPBiCG:  Solving for Ux, Initial residual = 0.5164584977, Final residual = 5.158672515e-31, No Iterations 42
+DILUPBiCG:  Solving for Uy, Initial residual = 0.7482362967, Final residual = 9.220976497e-32, No Iterations 43
+DILUPBiCG:  Solving for Uz, Initial residual = 0.564377074, Final residual = 7.281601413e-31, No Iterations 42
+HFDIBRANS: Max error in U -> Ui is 0.3293804882
+GAMG:  Solving for p, Initial residual = 0.3210807585, Final residual = 3.79804406e-11, No Iterations 13
+time step continuity errors : sum local = 1.654218455e-09, global = -5.221913282e-10, cumulative = -5.926473646e-10
+DILUPBiCG:  Solving for omega, Initial residual = 0.01908385143, Final residual = 3.804866342e-21, No Iterations 18
+DILUPBiCG:  Solving for k, Initial residual = 0.2647447135, Final residual = 6.045361205e-32, No Iterations 30
+HFDIBRANS: Max error in k -> ki is 2.481054915e-05
+ExecutionTime = 0.3 s  ClockTime = 0 s
+
+Time = 3
+
+DILUPBiCG:  Solving for Ux, Initial residual = 0.2620327087, Final residual = 9.995345314e-31, No Iterations 39
+DILUPBiCG:  Solving for Uy, Initial residual = 0.270005479, Final residual = 1.908882701e-32, No Iterations 41
+DILUPBiCG:  Solving for Uz, Initial residual = 0.2404439938, Final residual = 6.651642195e-31, No Iterations 40
+HFDIBRANS: Max error in U -> Ui is 0.2717706112
+GAMG:  Solving for p, Initial residual = 0.4170596797, Final residual = 3.831294733e-11, No Iterations 13
+time step continuity errors : sum local = 1.593789568e-09, global = -4.37359679e-10, cumulative = -1.030007044e-09
+DILUPBiCG:  Solving for omega, Initial residual = 0.001854976057, Final residual = 8.998446155e-21, No Iterations 19
+DILUPBiCG:  Solving for k, Initial residual = 0.1199935648, Final residual = 3.357573213e-31, No Iterations 31
+HFDIBRANS: Max error in k -> ki is 3.666250051e-06
+ExecutionTime = 0.37 s  ClockTime = 0 s
+
+Time = 4
+
+DILUPBiCG:  Solving for Ux, Initial residual = 0.1477256281, Final residual = 3.197296093e-31, No Iterations 44
+DILUPBiCG:  Solving for Uy, Initial residual = 0.1272439831, Final residual = 5.573832244e-31, No Iterations 45
+DILUPBiCG:  Solving for Uz, Initial residual = 0.1657422408, Final residual = 1.122176573e-31, No Iterations 45
+HFDIBRANS: Max error in U -> Ui is 0.1806926513
+GAMG:  Solving for p, Initial residual = 0.3844525654, Final residual = 7.688611506e-11, No Iterations 13
+time step continuity errors : sum local = 3.388256565e-09, global = -8.856803486e-10, cumulative = -1.915687392e-09
+DILUPBiCG:  Solving for omega, Initial residual = 0.001176746507, Final residual = 7.209601257e-22, No Iterations 20
+DILUPBiCG:  Solving for k, Initial residual = 0.05588133376, Final residual = 1.221258151e-31, No Iterations 31
+HFDIBRANS: Max error in k -> ki is 6.769105465e-07
+ExecutionTime = 0.45 s  ClockTime = 0 s
+
+Time = 5
+
+DILUPBiCG:  Solving for Ux, Initial residual = 0.1094198534, Final residual = 3.849854761e-31, No Iterations 40
+DILUPBiCG:  Solving for Uy, Initial residual = 0.07121226266, Final residual = 6.799343406e-31, No Iterations 41
+DILUPBiCG:  Solving for Uz, Initial residual = 0.1273649673, Final residual = 5.144609852e-32, No Iterations 42
+HFDIBRANS: Max error in U -> Ui is 0.1493814372
+GAMG:  Solving for p, Initial residual = 0.3090895542, Final residual = 4.796403652e-11, No Iterations 13
+time step continuity errors : sum local = 2.304547664e-09, global = -5.675098186e-10, cumulative = -2.483197211e-09
+DILUPBiCG:  Solving for omega, Initial residual = 0.0008275192145, Final residual = 7.136746347e-22, No Iterations 20
+DILUPBiCG:  Solving for k, Initial residual = 0.03517873491, Final residual = 2.212071947e-31, No Iterations 31
+HFDIBRANS: Max error in k -> ki is 1.838463057e-07
+ExecutionTime = 0.54 s  ClockTime = 0 s
+
+Time = 6
+
+DILUPBiCG:  Solving for Ux, Initial residual = 0.0818086401, Final residual = 8.35737956e-32, No Iterations 43
+DILUPBiCG:  Solving for Uy, Initial residual = 0.05974133203, Final residual = 2.299069959e-31, No Iterations 44
+DILUPBiCG:  Solving for Uz, Initial residual = 0.09496595645, Final residual = 4.108653428e-31, No Iterations 43
+HFDIBRANS: Max error in U -> Ui is 0.09448232871
+GAMG:  Solving for p, Initial residual = 0.2342523036, Final residual = 2.742971963e-11, No Iterations 13
+time step continuity errors : sum local = 1.422563783e-09, global = -3.387872578e-10, cumulative = -2.821984469e-09
+DILUPBiCG:  Solving for omega, Initial residual = 0.0006588936918, Final residual = 3.877155667e-21, No Iterations 20
+DILUPBiCG:  Solving for k, Initial residual = 0.02623401482, Final residual = 1.857940591e-31, No Iterations 31
+HFDIBRANS: Max error in k -> ki is 5.286552774e-08
+bounding k, min: 2.220446049e-16 max: 0.0002601359388 average: 2.392023957e-05
+ExecutionTime = 0.61 s  ClockTime = 1 s
+
+Time = 7
+
+DILUPBiCG:  Solving for Ux, Initial residual = 0.06395155811, Final residual = 3.302557917e-31, No Iterations 40
+DILUPBiCG:  Solving for Uy, Initial residual = 0.06423415233, Final residual = 3.076897235e-31, No Iterations 41
+DILUPBiCG:  Solving for Uz, Initial residual = 0.07371979693, Final residual = 8.975363859e-32, No Iterations 41
+HFDIBRANS: Max error in U -> Ui is 0.07960165396
+GAMG:  Solving for p, Initial residual = 0.1731925646, Final residual = 3.433946902e-11, No Iterations 13
+time step continuity errors : sum local = 1.987795293e-09, global = -4.071275125e-10, cumulative = -3.229111981e-09
+DILUPBiCG:  Solving for omega, Initial residual = 0.0005716788457, Final residual = 6.64241672e-21, No Iterations 19
+DILUPBiCG:  Solving for k, Initial residual = 0.02145433528, Final residual = 7.942944661e-31, No Iterations 30
+HFDIBRANS: Max error in k -> ki is 5.855215206e-08
+bounding k, min: 2.220446049e-16 max: 0.0001893101225 average: 1.929355909e-05
+ExecutionTime = 0.68 s  ClockTime = 1 s
+
+Time = 8
+
+DILUPBiCG:  Solving for Ux, Initial residual = 0.04886090078, Final residual = 1.814328704e-31, No Iterations 42
+DILUPBiCG:  Solving for Uy, Initial residual = 0.0677811919, Final residual = 6.64200702e-31, No Iterations 42
+DILUPBiCG:  Solving for Uz, Initial residual = 0.059020901, Final residual = 3.151360724e-31, No Iterations 42
+HFDIBRANS: Max error in U -> Ui is 0.05310934613
+GAMG:  Solving for p, Initial residual = 0.1322251546, Final residual = 5.56787048e-11, No Iterations 13
+time step continuity errors : sum local = 3.560975773e-09, global = -7.083196749e-10, cumulative = -3.937431656e-09
+DILUPBiCG:  Solving for omega, Initial residual = 0.0004087213992, Final residual = 5.977209529e-21, No Iterations 19
+DILUPBiCG:  Solving for k, Initial residual = 0.01613838378, Final residual = 9.236017926e-31, No Iterations 30
+HFDIBRANS: Max error in k -> ki is 3.770721006e-08
+bounding k, min: 2.220446049e-16 max: 0.0001410202005 average: 1.635252934e-05
+ExecutionTime = 0.76 s  ClockTime = 1 s
+
+Time = 9
+
+DILUPBiCG:  Solving for Ux, Initial residual = 0.03631091818, Final residual = 6.767643899e-31, No Iterations 39
+DILUPBiCG:  Solving for Uy, Initial residual = 0.06244981148, Final residual = 7.622348518e-32, No Iterations 41
+DILUPBiCG:  Solving for Uz, Initial residual = 0.05026555172, Final residual = 1.577939682e-32, No Iterations 41
+HFDIBRANS: Max error in U -> Ui is 0.03405054439
+GAMG:  Solving for p, Initial residual = 0.1106312062, Final residual = 9.172572223e-11, No Iterations 13
+time step continuity errors : sum local = 6.527272574e-09, global = -1.299363928e-09, cumulative = -5.236795584e-09
+DILUPBiCG:  Solving for omega, Initial residual = 0.0003681331542, Final residual = 3.881567619e-21, No Iterations 19
+DILUPBiCG:  Solving for k, Initial residual = 0.01225982367, Final residual = 3.518137469e-32, No Iterations 31
+HFDIBRANS: Max error in k -> ki is 2.466859294e-08
+bounding k, min: 2.220446049e-16 max: 0.0001169285549 average: 1.455462254e-05
+ExecutionTime = 0.83 s  ClockTime = 1 s
+
+Time = 10
+
+DILUPBiCG:  Solving for Ux, Initial residual = 0.03087651413, Final residual = 5.726145102e-32, No Iterations 41
+DILUPBiCG:  Solving for Uy, Initial residual = 0.05141550027, Final residual = 4.495212547e-31, No Iterations 40
+DILUPBiCG:  Solving for Uz, Initial residual = 0.05053505543, Final residual = 3.731112179e-31, No Iterations 41
+HFDIBRANS: Max error in U -> Ui is 0.03242576196
+GAMG:  Solving for p, Initial residual = 0.09683929018, Final residual = 3.085190036e-11, No Iterations 14
+time step continuity errors : sum local = 2.401731869e-09, global = -4.69494807e-10, cumulative = -5.706290391e-09
+DILUPBiCG:  Solving for omega, Initial residual = 0.0002559964198, Final residual = 2.574804336e-21, No Iterations 19
+DILUPBiCG:  Solving for k, Initial residual = 0.008492162368, Final residual = 2.156334667e-31, No Iterations 30
+HFDIBRANS: Max error in k -> ki is 1.303057225e-08
+bounding k, min: 2.220446049e-16 max: 0.0001070319547 average: 1.351175065e-05
+ExecutionTime = 0.91 s  ClockTime = 1 s
+
+End
+

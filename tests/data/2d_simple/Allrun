@@ -1,0 +1,34 @@
+#!/bin/sh
+cd "${0%/*}" || exit 1
+. $WM_PROJECT_DIR/bin/tools/RunFunctions
+
+restartTime=5
+endTime=10
+
+# prepare paraFoam file
+paraFoam -touch
+
+# create mesh: background -> snap to cylinder -> 2D extrusion -> empty patch
+runApplication blockMesh
+runApplication snappyHexMesh -overwrite
+runApplication extrudeMesh
+runApplication createPatch -overwrite
+runApplication checkMesh
+
+# prepare boundary conditions (after meshing, so no mesh is written to 0)
+rm -rf 0
+cp -r 0.org 0
+
+# prepare application
+application=$(getApplication)
+
+# first run: 0 -> restartTime
+foamDictionary -entry endTime -set $restartTime system/controlDict > /dev/null
+runApplication "$application"
+
+# restart: restartTime -> endTime
+foamDictionary -entry endTime -set $endTime system/controlDict > /dev/null
+runApplication -s restart "$application"
+
+# remove files causing trouble on windows
+find . -type f -name '*::*' -delete
