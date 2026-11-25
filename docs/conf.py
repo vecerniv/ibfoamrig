@@ -2,7 +2,11 @@
 
 from importlib.metadata import version as _version
 
+import polars as pl
 from sphinx.ext.intersphinx import missing_reference as _intersphinx_ref
+
+for _cls in (pl.DataFrame, pl.Series):
+    _cls.__module__ = "polars"
 
 # -- Project -----------------------------------------------------------------
 project = "ibfoamrig"
@@ -31,6 +35,9 @@ nitpicky = True  # warn about every unresolved reference
 nitpick_ignore = [
     ("py:class", "T"),
 ]
+nitpick_ignore_regex = [
+    ("py:class", r"numpy\._typing\..*"),
+]
 
 # -- Autodoc configuration ---------------------------------------------------
 autosummary_generate = True
@@ -54,19 +61,11 @@ intersphinx_mapping = {
     "polars": ("https://docs.pola.rs/api/python/stable/", None),
 }
 
-_TARGET_ALIASES = {
-    "polars.dataframe.frame.DataFrame": "polars.DataFrame",
-    "polars.series.series.Series": "polars.Series",
-}
-
 
 def _resolve_external(app, env, node, contnode):
-    """Retries failed Python rferences with public names and any object type."""
+    """Retries failed Python references with public names and any object type."""
     if node.get("refdomain") != "py" or node.get("reftype") == "obj":
         return None
-    node["reftarget"] = _TARGET_ALIASES.get(
-        node["reftarget"], node["reftarget"]
-    )
     node["reftype"] = "obj"
     return _intersphinx_ref(app, env, node, contnode)
 

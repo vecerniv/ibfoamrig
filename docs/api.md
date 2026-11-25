@@ -10,3 +10,10 @@
    ibfoamrig.plot
    ibfoamrig.exceptions
 ```
+
+## Type aliases
+
+```{eval-rst}
+.. automodule:: ibfoamrig.typing
+   :members:
+```
