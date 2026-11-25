@@ -1,3 +1,5 @@
-# Ignore specific folders
-tests/data/* linguist-vendored
-text=auto eol=lf
+# Normalize line endings
+* text=auto eol=lf
+
+# Exclude OpenFOAM test cases from language statistics
+tests/data/** linguist-vendored
