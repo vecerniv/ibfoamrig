@@ -77,7 +77,8 @@ def plot_geometry_2d(
             scale_units="xy",
             scale=1.0,
             color="tab:red",
-            width=0.003,
+            width=0.005,
+            zorder=3,
             label="surface normal",
         )
 
@@ -236,7 +237,7 @@ def _normals(info: InterpolationData) -> NDArray[np.float64]:
 def _spacing(info: InterpolationData) -> NDArray[np.float64]:
     """Returns the distances between consecutive interpolation points."""
     points = _polylines(info)[:, 1:]
-    lengths = np.linalg.norm(np.diff(points, axis=1), axis=1)
+    lengths = np.linalg.norm(np.diff(points, axis=1), axis=-1)
     return np.asarray(lengths, dtype=np.float64).ravel()
 
 
