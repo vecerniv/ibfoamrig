@@ -1,6 +1,6 @@
 """Plots of the IBM interpolation stencils.
 
-Each boundary cell of an immersed biundary has a line of interpolation
+Each boundary cell of an immersed boundary has a line of interpolation
 points along the surface normal. These functions show the line geometry in 2D
 and 3D.
 """
@@ -8,6 +8,7 @@ and 3D.
 from matplotlib.axes import Axes
 from matplotlib.collections import LineCollection
 from mpl_toolkits.mplot3d.art3d import Line3DCollection
+from mpl_toolkits.mplot3d.art3d import Poly3DCollection
 from mpl_toolkits.mplot3d.axes3d import Axes3D
 import numpy as np
 from numpy.typing import NDArray
@@ -16,6 +17,7 @@ from ibfoamrig.core.data import InterpolationData
 from ibfoamrig.plot.figure import get_axes
 
 _AXES: tuple[str, str, str] = ("x", "y", "z")
+_SURFACE_COLOR = "0.6"
 _LINE_COLOR = "0.5"
 _LINE_WIDTH = 0.6
 _MARKER_SIZE = 12.0
@@ -93,7 +95,10 @@ def plot_geometry_3d(
     ax: Axes3D | None = None,
     color_by: str | None = None,
     cmap: str = "viridis",
+    colorbar: bool = True,
     points: bool = True,
+    surface: NDArray[np.float64] | None = None,
+    surface_alpha: float = 0.4,
 ) -> Axes3D:
     """Plots the interpolation lines in 3D.
 
@@ -105,10 +110,14 @@ def plot_geometry_3d(
         ax: 3D axes to draw on. If None, a new figure is created.
         color_by: Column of ``info.frame`` to color the lines by. If None,
             all lines are grey.
-        cmap: Colour map used with ``color_by``.
+        cmap: Color map used with ``color_by``.
+        colorbar: If True and ``color_by`` is given, adds a color bar.
         points: If True, marks the boundary cell centres and interpolation
             points. Turn off for large selections to keep the interactive
             figure smooth and the line colors visible.
+        surface: Triangles with shape ``(n, 3, 3)`` drawn as the body. Only
+            the part inside the plotted region is shown.
+        surface_alpha: Opacity of the surface, from 0 to 1.
 
     Returns:
         The 3D axes drawn on.
@@ -116,10 +125,11 @@ def plot_geometry_3d(
     Raises:
         TypeError: If ``ax`` is not a 3D axes.
         KeyError: If ``color_by`` is not a column of ``info.frame``.
+        ValueError: If ``surface`` does not have shape ``(n, 3, 3)``.
     """
     axes = get_axes(ax, projection="3d")
     if not isinstance(axes, Axes3D):
-        raise TypeError("ax must be a 3D axes, create it with projection='3D'")
+        raise TypeError("ax must be a 3D axes, create it with projection='3d'")
     lines = _polylines(info)
 
     collection = Line3DCollection(list(lines), linewidths=0.8)
@@ -127,11 +137,17 @@ def plot_geometry_3d(
         collection.set_color(_LINE_COLOR)
     else:
         if color_by not in info.columns:
-            raise KeyError(f"no column names {color_by!r} to color by")
+            raise KeyError(f"no column named {color_by!r} to color by")
         collection.set_array(info.frame.get_column(color_by).to_numpy())
         collection.set_cmap(cmap)
-        axes.figure.colorbar(collection, ax=axes, label=color_by, shrink=0.7)
+        if colorbar:
+            axes.figure.colorbar(
+                collection, ax=axes, label=color_by, shrink=0.7
+            )
     axes.add_collection3d(collection)
+
+    if surface is not None:
+        _add_surface(axes, surface, surface_alpha)
 
     if points:
         for index, label in enumerate(_point_labels(info)):
@@ -264,3 +280,33 @@ def _set_equal_aspect(axes: Axes3D, points: NDArray[np.float64]) -> None:
     axes.set_ylim(centre[1] - span[1] / 2, centre[1] + span[1] / 2)
     axes.set_zlim(centre[2] - span[2] / 2, centre[2] + span[2] / 2)
     axes.set_box_aspect(tuple(span))
+
+
+def _add_surface(
+    axes: Axes3D, surface: NDArray[np.float64], alpha: float
+) -> None:
+    """Draws a shaded triangulated surface, clipped to the axes limits.
+
+    Args:
+        axes: The 3D axes.
+        surface: Triangles with shape ``(n, 3, 3)``.
+        alpha: Opacity of the surface.
+
+    Raises:
+        ValueError: If ``surface`` does not have shape ``(n, 3, 3)``.
+    """
+    triangles = np.asarray(surface, dtype=np.float64)
+    if triangles.ndim != 3 or triangles.shape[1:] != (3, 3):
+        raise ValueError(
+            f"surface must have shape (n, 3, 3), got {triangles.shape}"
+        )
+    axes.add_collection3d(
+        Poly3DCollection(
+            list(triangles),
+            facecolors=_SURFACE_COLOR,
+            linewidths=0.0,
+            alpha=alpha,
+            shade=True,
+            axlim_clip=True,
+        )
+    )
