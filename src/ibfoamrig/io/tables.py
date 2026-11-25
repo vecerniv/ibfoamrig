@@ -11,9 +11,9 @@ from collections.abc import Sequence
 
 import polars as pl
 
-from ibfoamrig._typing import StrPath
 from ibfoamrig.exceptions import FoamParseError
 from ibfoamrig.io._files import require_file
+from ibfoamrig.typing import StrPath
 
 _COMMENT = "#"
 _NOT_AVAILABLE = "N/A"

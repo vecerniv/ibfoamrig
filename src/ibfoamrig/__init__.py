@@ -7,6 +7,7 @@ Subpackages:
 * `ibfoamrig.plot`: plotting functions, imported separately to avoid loading
   matplotlib on headless machines, e.g.
   ``from ibfoamrig.plot import plot_profile``.
+* `ibfoamrig.typing`: type aliases used in signatures.
 """
 
 from importlib.metadata import PackageNotFoundError

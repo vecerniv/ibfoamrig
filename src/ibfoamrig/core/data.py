@@ -12,10 +12,10 @@ import numpy as np
 from numpy.typing import NDArray
 import polars as pl
 
-from ibfoamrig._typing import Point
-from ibfoamrig._typing import StrPath
 from ibfoamrig.io import foam_file
 from ibfoamrig.io import tables
+from ibfoamrig.typing import Point
+from ibfoamrig.typing import StrPath
 
 _BASE_COLUMNS: tuple[str, str, str, str] = ("cellI", "x", "y", "z")
 _GEOMETRY_COLUMNS: frozenset[str] = frozenset({*_BASE_COLUMNS, "V", "S"})

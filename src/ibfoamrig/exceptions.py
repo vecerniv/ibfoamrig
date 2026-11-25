@@ -2,7 +2,7 @@
 
 from pathlib import Path
 
-from ibfoamrig._typing import StrPath
+from ibfoamrig.typing import StrPath
 
 
 class IbfoamrigError(Exception):
