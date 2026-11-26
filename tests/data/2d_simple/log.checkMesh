@@ -21,7 +21,7 @@ allowSystemOperations : Allowing user-supplied system call operations
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 Create time
 
---> FOAM Warning : 
+--> FOAM Warning :
     From function static Foam::instantList Foam::timeSelector::select0(Foam::Time&, const Foam::argList&)
     in file db/Time/timeSelector.C at line 269
     No time specified or available, selecting 'constant'
@@ -59,12 +59,12 @@ Checking topology...
     Number of regions: 1 (OK).
 
 Checking patch topology for multiply connected surfaces...
-    Patch               Faces    Points   Surface topology                  
-    outlet              20       42       ok (non-closed singly connected)  
-    inlet               20       42       ok (non-closed singly connected)  
-    walls               40       84       ok (non-closed singly connected)  
-    cylinder            32       64       ok (non-closed singly connected)  
-    frontAndBack        640      744      ok (non-closed singly connected)  
+    Patch               Faces    Points   Surface topology
+    outlet              20       42       ok (non-closed singly connected)
+    inlet               20       42       ok (non-closed singly connected)
+    walls               40       84       ok (non-closed singly connected)
+    cylinder            32       64       ok (non-closed singly connected)
+    frontAndBack        640      744      ok (non-closed singly connected)
 
 Checking geometry...
     Overall domain bounding box (-0.02 -0.02 -0.001) (0.02 0.02 0.001)
@@ -85,4 +85,3 @@ Checking geometry...
 Mesh OK.
 
 End
-

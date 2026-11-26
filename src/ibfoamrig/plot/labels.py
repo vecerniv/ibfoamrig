@@ -54,11 +54,11 @@ PRESETS: Final = MappingProxyType(
         ),
         "nut": AxisLabels(
             title="Turbulence viscosity profile",
-            ylabel=r"$\nut_t / $\mathrm{m^{2}\,s^{-1}}$",
+            ylabel=r"$\nut_t$ / $\mathrm{m^{2}\,s^{-1}}$",
         ),
         "epsilon": AxisLabels(
             title="Turbulence dissipation rate profile",
-            ylabel=r"$\varepsilon$ / $\mathmrm{m^{2}\,s^{-3}}$",
+            ylabel=r"$\varepsilon$ / $\mathrm{m^{2}\,s^{-3}}$",
         ),
         "omega": AxisLabels(
             title="Specific dissipation rate profile",

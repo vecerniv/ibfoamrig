@@ -11,6 +11,7 @@ import subprocess
 from typing import NamedTuple
 
 import numpy as np
+from numpy.typing import NDArray
 import polars as pl
 
 from ibfoamrig.core import time_dirs
@@ -21,6 +22,7 @@ from ibfoamrig.core.time_dirs import TimeDirectory
 from ibfoamrig.exceptions import CaseNotFoundError
 from ibfoamrig.exceptions import ScriptError
 from ibfoamrig.io import foam_file
+from ibfoamrig.io import stl
 from ibfoamrig.io import tables
 from ibfoamrig.typing import Distribution
 from ibfoamrig.typing import StrPath
@@ -212,7 +214,7 @@ class FoamCase:
             if (entry.path / "residuals.dat").is_file()
         ]
         if not files:
-            raise FileNotFoundError(f"no rediduals.dat found under {root}")
+            raise FileNotFoundError(f"no residuals.dat found under {root}")
 
         frames = [tables.read_residuals(file) for file in files]
         # Drop rows that are overwritten by a later time
@@ -241,6 +243,22 @@ class FoamCase:
             ValueError: If a boundary cell is missing from ``cells``.
         """
         return InterpolationData.from_file(self.path / table, cells)
+
+    def surface(self, path: StrPath) -> NDArray[np.float64]:
+        """Reads an STL surface of the case.
+
+        Args:
+            path: Path to the STL file, relative to the case directory.
+
+        Returns:
+            Vertex coordinates with shape ``(n, 3, 3)``, see
+            `ibfoamrig.io.read_stl`.
+
+        Raises:
+            FileNotFoundError: If the file does not exist.
+            FoamParseError: If the file holds no triangles.
+        """
+        return stl.read_stl(self.path / path)
 
     def boundary_stats(
         self, field: str = "yPlusi", time: TimeSpec = "latest"

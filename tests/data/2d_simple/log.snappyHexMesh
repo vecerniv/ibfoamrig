@@ -58,11 +58,11 @@ Cells per refinement level:
 Adding patches for surface regions
 ----------------------------------
 
-Patch Type                Region                        
------ ----                ------                        
+Patch Type                Region
+----- ----                ------
 cylinder:
 
-5     wall                cylinder                      
+5     wall                cylinder
 
 Added patches in = 0 s
 
@@ -265,7 +265,7 @@ Morphing phase
 
 Snapping to features in 10 iterations ...
 Constructing mesh displacer ...
-Using mesh parameters 
+Using mesh parameters
 {
     maxNonOrtho     65;
     maxBoundarySkewness 20;
@@ -992,4 +992,3 @@ Checking faces in error :
 Finished meshing without any errors
 Finished meshing in = 0.12 s.
 End
-
