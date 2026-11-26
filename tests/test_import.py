@@ -15,6 +15,7 @@ PUBLIC_MODULES = [
     "ibfoamrig.core",
     "ibfoamrig.io",
     "ibfoamrig.plot",
+    "ibfoamrig.typing"
 ]
 
 
@@ -45,7 +46,7 @@ def test_public_names_are_unique(module_name: str) -> None:
 
 
 def test_version_matches_metadata() -> None:
-    """Tests that ``__version__`` is the installed distribtion version."""
+    """Tests that ``__version__`` is the installed distribution version."""
     assert ibfoamrig.__version__ == importlib.metadata.version("ibfoamrig")
 
 
