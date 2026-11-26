@@ -15,7 +15,7 @@ PUBLIC_MODULES = [
     "ibfoamrig.core",
     "ibfoamrig.io",
     "ibfoamrig.plot",
-    "ibfoamrig.typing"
+    "ibfoamrig.typing",
 ]
 
 
